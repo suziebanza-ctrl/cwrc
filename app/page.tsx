@@ -66,6 +66,7 @@ const animals = [
 const navigation = [
   { label: "About Us", href: "/about" },
   { label: "Departments", href: "/departments" },
+  { label: "Rooms", href: "/rooms" },
   { label: "Research Papers", href: "/research" },
   { label: "Ask Cathy", href: "/ask-cathy" },
   { label: "Submit a Case", href: "/submit-case" },
@@ -238,7 +239,7 @@ export default function Home() {
               fontWeight: "bold",
             }}
           >
-            Version 0.7 - Home page enriched
+            Version 0.8 - Rooms connected
           </div>
         </div>
       </section>
@@ -383,6 +384,30 @@ export default function Home() {
                 ))}
               </div>
             </article>
+
+            <article style={featureStyle}>
+              <h2>Rooms of the Center</h2>
+              <p>
+                The CWRC now includes offices, laboratories, archives, a
+                library, a greenhouse, a kitchen and a coffee room.
+              </p>
+
+              <a
+                href="/rooms"
+                style={{
+                  display: "inline-block",
+                  marginTop: "14px",
+                  padding: "12px 18px",
+                  borderRadius: "999px",
+                  backgroundColor: "#102A4C",
+                  color: "#F7F1E6",
+                  textDecoration: "none",
+                  fontWeight: "bold",
+                }}
+              >
+                Visit the rooms
+              </a>
+            </article>
           </section>
         </div>
 
@@ -449,6 +474,44 @@ export default function Home() {
               <p style={{ color: "#8A6A3D", fontWeight: "bold" }}>
                 — Verified by Cathy
               </p>
+            </div>
+          </section>
+
+          <section style={sidebarBoxStyle}>
+            <h2
+              style={{
+                marginTop: 0,
+                backgroundColor: "#102A4C",
+                color: "#F7F1E6",
+                padding: "14px 18px",
+                borderRadius: "14px 14px 0 0",
+                fontSize: "1.2rem",
+              }}
+            >
+              Explore the Building
+            </h2>
+
+            <div style={{ padding: "18px" }}>
+              <p style={{ lineHeight: "1.7" }}>
+                Visit Cathy’s office, Suzie’s operations office, GPT’s technical
+                studio, the laboratory, the library and more.
+              </p>
+
+              <a
+                href="/rooms"
+                style={{
+                  display: "inline-block",
+                  marginTop: "12px",
+                  padding: "12px 18px",
+                  borderRadius: "999px",
+                  backgroundColor: "#102A4C",
+                  color: "#F7F1E6",
+                  textDecoration: "none",
+                  fontWeight: "bold",
+                }}
+              >
+                Open rooms directory
+              </a>
             </div>
           </section>
 
