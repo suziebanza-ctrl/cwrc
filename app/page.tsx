@@ -1,596 +1,164 @@
-const people = [
-  {
-    name: "Dr. Cathy",
-    role: "Chief Research Officer",
-    description:
-      "Founder of the Center and final authority on all confirmed truths.",
-    specialty:
-      "Specialties: horses, nutrition, mechanics, history and common sense.",
-  },
-  {
-    name: "Suzie",
-    role: "Director of Research Operations",
-    description:
-      "Guardian of quality, structure, continuous improvement and good documentation.",
-    specialty:
-      "Inspired by Deming, Seneca, Marcus Aurelius and well-organized tables.",
-  },
-  {
-    name: "GPT",
-    role: "Chief Creative & Technical Officer",
-    description:
-      "Builds the website, prepares drafts, organizes ideas and tells questionable dad jokes.",
-    specialty: "Official policy: GPT proposes. Cathy decides.",
-  },
-];
+import Link from "next/link";
 
-const animals = [
-  {
-    name: "Jenny",
-    role: "Head of Equine Relations",
-    description:
-      "A blonde mare with calm authority, deep patience and silent judgment.",
-  },
-  {
-    name: "Ranger",
-    role: "Chief of Security",
-    description:
-      "A blonde Labrador responsible for safety, snack control and perimeter patrols.",
-  },
-  {
-    name: "Lilo",
-    role: "Research Companion",
-    description:
-      "A black standard poodle with a small white patch on her chest and excellent emotional intelligence.",
-  },
-  {
-    name: "Annie",
-    role: "Chief of Joy and Chaos",
-    description:
-      "A white fluffy dog, cheerful, clumsy and naturally gifted in comic timing.",
-  },
-  {
-    name: "Capone",
-    role: "Senior Feline Analyst",
-    description:
-      "A grey and black tabby cat with one slightly cut ear and a strong interest in boxes.",
-  },
-  {
-    name: "Niko",
-    role: "Junior Feline Analyst",
-    description:
-      "A blonde cat specializing in curiosity, sunshine, keyboard walks and optimism.",
-  },
-];
-
-const navigation = [
-  { label: "About Us", href: "/about" },
-  { label: "Departments", href: "/departments" },
-  { label: "Rooms", href: "/rooms" },
-  { label: "Research Papers", href: "/research" },
-  { label: "Ask Cathy", href: "/ask-cathy" },
-  { label: "Submit a Case", href: "/submit-case" },
-  { label: "Hall of Confirmed Truths", href: "/hall" },
-  { label: "Contact", href: "/contact" },
-];
-
-const statistics = [
-  { label: "Research Papers Published", value: "0" },
-  { label: "Questions Answered", value: "0" },
-  { label: "Cases Under Investigation", value: "7" },
-  { label: "Coffee Consumed", value: "∞" },
-  { label: "Times Cathy Was Wrong", value: "0" },
-  { label: "Truths Confirmed", value: "Pending" },
-];
-
-const methods = [
-  "Observe",
-  "Question",
-  "Research",
-  "Analyze",
-  "Cathy Decides",
-  "Publish Truth",
-];
-
-export default function Home() {
+export default function EntrancePage() {
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        backgroundColor: "#F7F1E6",
-        color: "#102A4C",
-        fontFamily: "Georgia, serif",
-      }}
-    >
-      <header
-        style={{
-          backgroundColor: "#102A4C",
-          color: "#F7F1E6",
-          padding: "14px 24px",
-          position: "sticky",
-          top: 0,
-          zIndex: 10,
-          boxShadow: "0 6px 18px rgba(16, 42, 76, 0.25)",
-        }}
-      >
-        <nav
-          style={{
-            maxWidth: "1300px",
-            margin: "0 auto",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: "20px",
-            flexWrap: "wrap",
-          }}
-        >
-          <a
-            href="/"
-            style={{
-              color: "#F7F1E6",
-              textDecoration: "none",
-              fontWeight: "bold",
-              letterSpacing: "0.12em",
-            }}
-          >
-            CWRC
-          </a>
+    <main className="entrance">
+      <section className="content">
+        <p className="eyebrow">Welcome to</p>
 
-          <div
-            style={{
-              display: "flex",
-              gap: "16px",
-              flexWrap: "wrap",
-              justifyContent: "center",
-              fontSize: "0.95rem",
-            }}
-          >
-            {navigation.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                style={{
-                  color: "#F7F1E6",
-                  textDecoration: "none",
-                  fontWeight: "bold",
-                }}
-              >
-                {item.label}
-              </a>
-            ))}
-          </div>
+        <h1>
+          The Cathy Was Right
+          <br />
+          Research Center
+        </h1>
 
-          <div style={{ display: "flex", gap: "12px", fontWeight: "bold" }}>
-            <a href="#" style={{ color: "#F7F1E6", textDecoration: "none" }}>
-              Français
-            </a>
-            <span>|</span>
-            <a href="#" style={{ color: "#F7F1E6", textDecoration: "none" }}>
-              English
-            </a>
-          </div>
-        </nav>
-      </header>
+        <p className="values">Humour • Kindness • Curiosity</p>
 
-      <section
-        style={{
-          maxWidth: "1300px",
-          margin: "32px auto 0",
-          padding: "0 24px",
-        }}
-      >
-        <div
-          style={{
-            backgroundColor: "#FFFDF8",
-            borderRadius: "24px",
-            padding: "42px 32px",
-            textAlign: "center",
-            boxShadow: "0 20px 50px rgba(16, 42, 76, 0.15)",
-            border: "1px solid rgba(138, 106, 61, 0.25)",
-          }}
-        >
-          <p
-            style={{
-              letterSpacing: "0.22em",
-              textTransform: "uppercase",
-              color: "#8A6A3D",
-              fontSize: "0.85rem",
-              marginBottom: "16px",
-            }}
-          >
-            Official Research Institute
-          </p>
+        <Link href="/home" className="imageLink">
+          <img
+            src="/images/facade.png"
+            alt="The Cathy Was Right Research Center facade"
+            className="facade"
+          />
+        </Link>
 
-          <h1
-            style={{
-              fontSize: "clamp(2.8rem, 7vw, 5.8rem)",
-              lineHeight: "0.95",
-              margin: "0 0 18px",
-            }}
-          >
-            The Cathy Was Right
-            <br />
-            Research Center
-          </h1>
+        <p className="tagline">Where evidence catches up with Cathy.</p>
 
-          <h2
-            style={{
-              color: "#8A6A3D",
-              fontWeight: "normal",
-              fontSize: "1.7rem",
-              marginBottom: "28px",
-            }}
-          >
-            Where evidence catches up with Cathy.
-          </h2>
-
-          <p style={{ fontSize: "1.2rem", lineHeight: "1.8", margin: 0 }}>
-            Curiosity. Kindness. Coffee.
-          </p>
-
-          <div
-            style={{
-              marginTop: "34px",
-              display: "inline-block",
-              padding: "16px 28px",
-              borderRadius: "999px",
-              backgroundColor: "#102A4C",
-              color: "#F7F1E6",
-              fontWeight: "bold",
-            }}
-          >
-            Version 0.8 - Rooms connected
-          </div>
-        </div>
+        <Link href="/home" className="enterButton">
+          Enter the Center
+        </Link>
       </section>
 
-      <section
-        style={{
-          maxWidth: "1300px",
-          margin: "28px auto 0",
-          padding: "0 24px",
-          display: "grid",
-          gridTemplateColumns: "minmax(0, 1fr) 300px",
-          gap: "24px",
-        }}
-      >
-        <div>
-          <section>
-            <h2
-              style={{
-                textAlign: "center",
-                fontSize: "2rem",
-                marginBottom: "20px",
-              }}
-            >
-              Founding Research Team
-            </h2>
+      <style>{`
+        .entrance {
+          min-height: 100vh;
+          background: radial-gradient(circle at top, #f7f1e6 0%, #102a4c 100%);
+          color: #f7f1e6;
+          font-family: Georgia, serif;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 40px;
+          overflow: hidden;
+        }
 
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-                gap: "20px",
-              }}
-            >
-              {people.map((person) => (
-                <article key={person.name} style={cardStyle}>
-                  <h3 style={{ marginTop: 0 }}>{person.name}</h3>
+        .content {
+          max-width: 1180px;
+          width: 100%;
+          text-align: center;
+          opacity: 0;
+          transform: translateY(20px);
+          animation: fadeIn 1.8s ease forwards;
+        }
 
-                  <p style={{ color: "#8A6A3D", fontWeight: "bold" }}>
-                    {person.role}
-                  </p>
+        .eyebrow {
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          color: #d8c49a;
+          font-size: 0.9rem;
+          margin-bottom: 14px;
+        }
 
-                  <p>{person.description}</p>
+        h1 {
+          font-size: clamp(2.7rem, 7vw, 6rem);
+          line-height: 0.95;
+          margin: 0 0 16px;
+          text-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+        }
 
-                  <p>
-                    <em>{person.specialty}</em>
-                  </p>
-                </article>
-              ))}
-            </div>
-          </section>
+        .values {
+          font-size: 1.25rem;
+          margin-bottom: 28px;
+          color: #f7f1e6;
+        }
 
-          <section style={{ marginTop: "40px" }}>
-            <h2
-              style={{
-                textAlign: "center",
-                fontSize: "2rem",
-                marginBottom: "8px",
-              }}
-            >
-              Our Official Animal Team
-            </h2>
+        .imageLink {
+          display: block;
+          text-decoration: none;
+        }
 
-            <p
-              style={{
-                textAlign: "center",
-                color: "#8A6A3D",
-                fontSize: "1.1rem",
-                marginBottom: "24px",
-              }}
-            >
-              Not mascots. Colleagues.
-            </p>
+        .facade {
+          width: 100%;
+          max-height: 60vh;
+          object-fit: cover;
+          border-radius: 28px;
+          box-shadow: 0 30px 80px rgba(0, 0, 0, 0.42);
+          border: 1px solid rgba(247, 241, 230, 0.5);
+          cursor: pointer;
+          opacity: 0;
+          transform: scale(0.97);
+          animation: imageReveal 2.2s ease 0.6s forwards;
+          transition: transform 0.8s ease, filter 0.8s ease;
+        }
 
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-                gap: "20px",
-              }}
-            >
-              {animals.map((animal) => (
-                <article
-                  key={animal.name}
-                  style={{
-                    ...cardStyle,
-                    borderTop: "6px solid #8A6A3D",
-                  }}
-                >
-                  <h3 style={{ marginTop: 0 }}>{animal.name}</h3>
+        .facade:hover {
+          transform: scale(1.02);
+          filter: brightness(1.08);
+        }
 
-                  <p style={{ color: "#8A6A3D", fontWeight: "bold" }}>
-                    {animal.role}
-                  </p>
+        .tagline {
+          font-size: 1.35rem;
+          color: #d8c49a;
+          margin: 28px 0 22px;
+          opacity: 0;
+          animation: fadeInOnly 1.4s ease 1.6s forwards;
+        }
 
-                  <p>{animal.description}</p>
-                </article>
-              ))}
-            </div>
-          </section>
+        .enterButton {
+          display: inline-block;
+          padding: 16px 36px;
+          border-radius: 999px;
+          background-color: #f7f1e6;
+          color: #102a4c;
+          text-decoration: none;
+          font-weight: bold;
+          font-size: 1.1rem;
+          box-shadow: 0 16px 42px rgba(0, 0, 0, 0.32);
+          opacity: 0;
+          transform: translateY(10px);
+          animation: buttonReveal 1.2s ease 2.2s forwards, pulse 2.6s ease-in-out 3.6s infinite;
+        }
 
-          <section
-            style={{
-              marginTop: "40px",
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-              gap: "20px",
-            }}
-          >
-            <article style={featureStyle}>
-              <h2>Our Mission</h2>
-              <p>
-                To investigate the mysteries of everyday life with scientific
-                rigor, intellectual curiosity and the growing suspicion that
-                Cathy was right all along.
-              </p>
-            </article>
+        .enterButton:hover {
+          background-color: #ffffff;
+        }
 
-            <article style={featureStyle}>
-              <h2>Our Methods</h2>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
-                  gap: "12px",
-                  marginTop: "18px",
-                }}
-              >
-                {methods.map((method) => (
-                  <div
-                    key={method}
-                    style={{
-                      backgroundColor: "#F7F1E6",
-                      borderRadius: "999px",
-                      padding: "12px 14px",
-                      textAlign: "center",
-                      fontWeight: "bold",
-                      color: "#102A4C",
-                    }}
-                  >
-                    {method}
-                  </div>
-                ))}
-              </div>
-            </article>
+        @keyframes fadeIn {
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
 
-            <article style={featureStyle}>
-              <h2>Rooms of the Center</h2>
-              <p>
-                The CWRC now includes offices, laboratories, archives, a
-                library, a greenhouse, a kitchen and a coffee room.
-              </p>
+        @keyframes imageReveal {
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
 
-              <a
-                href="/rooms"
-                style={{
-                  display: "inline-block",
-                  marginTop: "14px",
-                  padding: "12px 18px",
-                  borderRadius: "999px",
-                  backgroundColor: "#102A4C",
-                  color: "#F7F1E6",
-                  textDecoration: "none",
-                  fontWeight: "bold",
-                }}
-              >
-                Visit the rooms
-              </a>
-            </article>
-          </section>
-        </div>
+        @keyframes fadeInOnly {
+          to {
+            opacity: 1;
+          }
+        }
 
-        <aside
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "18px",
-          }}
-        >
-          <section style={sidebarBoxStyle}>
-            <h2
-              style={{
-                marginTop: 0,
-                backgroundColor: "#102A4C",
-                color: "#F7F1E6",
-                padding: "14px 18px",
-                borderRadius: "14px 14px 0 0",
-                fontSize: "1.2rem",
-              }}
-            >
-              Center Statistics
-            </h2>
+        @keyframes buttonReveal {
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
 
-            <div style={{ padding: "8px 18px 18px" }}>
-              {statistics.map((stat) => (
-                <div
-                  key={stat.label}
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    gap: "12px",
-                    borderBottom: "1px solid rgba(138, 106, 61, 0.25)",
-                    padding: "12px 0",
-                    fontSize: "0.95rem",
-                  }}
-                >
-                  <span>{stat.label}</span>
-                  <strong>{stat.value}</strong>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section style={sidebarBoxStyle}>
-            <h2
-              style={{
-                marginTop: 0,
-                backgroundColor: "#102A4C",
-                color: "#F7F1E6",
-                padding: "14px 18px",
-                borderRadius: "14px 14px 0 0",
-                fontSize: "1.2rem",
-              }}
-            >
-              Today’s Official Finding
-            </h2>
-
-            <div style={{ padding: "18px" }}>
-              <p style={{ lineHeight: "1.7" }}>
-                Common sense is not that common. Use it daily.
-              </p>
-
-              <p style={{ color: "#8A6A3D", fontWeight: "bold" }}>
-                — Verified by Cathy
-              </p>
-            </div>
-          </section>
-
-          <section style={sidebarBoxStyle}>
-            <h2
-              style={{
-                marginTop: 0,
-                backgroundColor: "#102A4C",
-                color: "#F7F1E6",
-                padding: "14px 18px",
-                borderRadius: "14px 14px 0 0",
-                fontSize: "1.2rem",
-              }}
-            >
-              Explore the Building
-            </h2>
-
-            <div style={{ padding: "18px" }}>
-              <p style={{ lineHeight: "1.7" }}>
-                Visit Cathy’s office, Suzie’s operations office, GPT’s technical
-                studio, the laboratory, the library and more.
-              </p>
-
-              <a
-                href="/rooms"
-                style={{
-                  display: "inline-block",
-                  marginTop: "12px",
-                  padding: "12px 18px",
-                  borderRadius: "999px",
-                  backgroundColor: "#102A4C",
-                  color: "#F7F1E6",
-                  textDecoration: "none",
-                  fontWeight: "bold",
-                }}
-              >
-                Open rooms directory
-              </a>
-            </div>
-          </section>
-
-          <section style={sidebarBoxStyle}>
-            <h2
-              style={{
-                marginTop: 0,
-                backgroundColor: "#102A4C",
-                color: "#F7F1E6",
-                padding: "14px 18px",
-                borderRadius: "14px 14px 0 0",
-                fontSize: "1.2rem",
-              }}
-            >
-              Submit a Case
-            </h2>
-
-            <div style={{ padding: "18px" }}>
-              <p style={{ lineHeight: "1.7" }}>
-                Do you have a question, an affirmation or a mystery that needs
-                official CWRC review?
-              </p>
-
-              <a
-                href="/submit-case"
-                style={{
-                  display: "inline-block",
-                  marginTop: "12px",
-                  padding: "12px 18px",
-                  borderRadius: "999px",
-                  backgroundColor: "#102A4C",
-                  color: "#F7F1E6",
-                  textDecoration: "none",
-                  fontWeight: "bold",
-                }}
-              >
-                Submit your case
-              </a>
-            </div>
-          </section>
-        </aside>
-      </section>
-
-      <footer
-        style={{
-          marginTop: "48px",
-          backgroundColor: "#102A4C",
-          color: "#F7F1E6",
-          textAlign: "center",
-          padding: "24px",
-          fontSize: "0.95rem",
-        }}
-      >
-        Science. Experience. Common Sense. Coffee. Sometimes in that order.
-      </footer>
+        @keyframes pulse {
+          0%, 100% {
+            box-shadow: 0 16px 42px rgba(0, 0, 0, 0.32);
+          }
+          50% {
+            box-shadow: 0 18px 55px rgba(247, 241, 230, 0.65);
+          }
+        }
+      `}</style>
     </main>
   );
 }
-
-const cardStyle = {
-  backgroundColor: "#FFFDF8",
-  borderRadius: "18px",
-  padding: "24px",
-  boxShadow: "0 12px 30px rgba(16, 42, 76, 0.12)",
-  border: "1px solid rgba(138, 106, 61, 0.18)",
-};
-
-const featureStyle = {
-  backgroundColor: "#FFFDF8",
-  borderRadius: "18px",
-  padding: "28px",
-  boxShadow: "0 12px 30px rgba(16, 42, 76, 0.12)",
-  borderLeft: "8px solid #8A6A3D",
-};
-
-const sidebarBoxStyle = {
-  backgroundColor: "#FFFDF8",
-  borderRadius: "16px",
-  boxShadow: "0 12px 30px rgba(16, 42, 76, 0.12)",
-  border: "1px solid rgba(138, 106, 61, 0.22)",
-  overflow: "hidden",
-};

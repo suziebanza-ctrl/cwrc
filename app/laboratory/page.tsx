@@ -22,6 +22,8 @@ const objects = [
 export default function LaboratoryPage() {
   return (
     <main style={pageStyle}>
+      <Header />
+
       <section style={heroStyle}>
         <p style={eyebrowStyle}>CWRC Experimental Division</p>
 
@@ -52,17 +54,51 @@ export default function LaboratoryPage() {
           ))}
         </div>
 
-        <div style={{ marginTop: "40px", display: "flex", gap: "14px", flexWrap: "wrap" }}>
-          <Link href="/rooms" style={buttonStyle}>
-            ← Back to Rooms
-          </Link>
-
-          <Link href="/" style={buttonStyle}>
-            Return Home
-          </Link>
-        </div>
+        <NavigationButtons />
       </section>
+
+      <Footer />
     </main>
+  );
+}
+
+function Header() {
+  return (
+    <header style={headerStyle}>
+      <Link href="/" style={logoStyle}>CWRC</Link>
+
+      <nav style={navStyle}>
+        <Link href="/home" style={navLinkStyle}>Main Hall</Link>
+        <Link href="/about" style={navLinkStyle}>About Us</Link>
+        <Link href="/rooms" style={navLinkStyle}>Rooms</Link>
+        <Link href="/development-log" style={navLinkStyle}>Development Log</Link>
+      </nav>
+
+      <div style={languageStyle}>
+        <span>Français</span>
+        <span>English</span>
+        <span>Español</span>
+      </div>
+    </header>
+  );
+}
+
+function NavigationButtons() {
+  return (
+    <div style={buttonRowStyle}>
+      <Link href="/home" style={buttonStyle}>← Return to Main Hall</Link>
+      <Link href="/rooms" style={buttonStyle}>Explore Rooms</Link>
+      <Link href="/ask-cathy" style={buttonStyle}>Ask Cathy</Link>
+      <Link href="/development-log" style={buttonStyle}>Development Log</Link>
+    </div>
+  );
+}
+
+function Footer() {
+  return (
+    <footer style={footerStyle}>
+      © 2025-2026 The Cathy Was Right Research Center™ — Humour. Kindness. Curiosity.
+    </footer>
   );
 }
 
@@ -71,12 +107,51 @@ const pageStyle = {
   backgroundColor: "#F7F1E6",
   color: "#102A4C",
   fontFamily: "Georgia, serif",
-  padding: "48px 24px",
+};
+
+const headerStyle = {
+  backgroundColor: "#102A4C",
+  color: "#F7F1E6",
+  padding: "16px 28px",
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  gap: "20px",
+  flexWrap: "wrap" as const,
+  position: "sticky" as const,
+  top: 0,
+  zIndex: 10,
+};
+
+const logoStyle = {
+  color: "#F7F1E6",
+  textDecoration: "none",
+  fontWeight: "bold",
+  letterSpacing: "0.14em",
+};
+
+const navStyle = {
+  display: "flex",
+  gap: "18px",
+  flexWrap: "wrap" as const,
+};
+
+const navLinkStyle = {
+  color: "#F7F1E6",
+  textDecoration: "none",
+  fontWeight: "bold",
+};
+
+const languageStyle = {
+  display: "flex",
+  gap: "12px",
+  fontWeight: "bold",
+  color: "#D8C49A",
 };
 
 const heroStyle = {
   maxWidth: "1100px",
-  margin: "0 auto",
+  margin: "48px auto",
   backgroundColor: "#FFFDF8",
   borderRadius: "24px",
   padding: "48px 32px",
@@ -129,6 +204,13 @@ const cardStyle = {
   borderTop: "6px solid #8A6A3D",
 };
 
+const buttonRowStyle = {
+  marginTop: "40px",
+  display: "flex",
+  gap: "14px",
+  flexWrap: "wrap" as const,
+};
+
 const buttonStyle = {
   display: "inline-block",
   padding: "14px 24px",
@@ -137,4 +219,11 @@ const buttonStyle = {
   color: "#F7F1E6",
   textDecoration: "none",
   fontWeight: "bold",
+};
+
+const footerStyle = {
+  backgroundColor: "#102A4C",
+  color: "#F7F1E6",
+  textAlign: "center" as const,
+  padding: "24px",
 };

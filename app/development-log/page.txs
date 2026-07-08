@@ -1,0 +1,198 @@
+import Link from "next/link";
+
+const logs = [
+  {
+    number: "0001",
+    title: "Foundation of the CWRC",
+    date: "July 2, 2026",
+    text: "The foundations of the Center were declared solid enough to begin construction. Jenny inspected the ground, Ranger secured the site, and Annie immediately disturbed the filing system.",
+  },
+  {
+    number: "0008",
+    title: "Official Birth of the Website",
+    date: "July 2026",
+    text: "The first code of The Cathy Was Right Research Center was generated. The site began to exist physically on the computer.",
+  },
+  {
+    number: "0011",
+    title: "First Official CWRC Page",
+    date: "July 2026",
+    text: "The default Next.js page was replaced by the first official CWRC page.",
+  },
+  {
+    number: "0015",
+    title: "Real Pages Connected",
+    date: "July 2026",
+    text: "The homepage was connected to its first real internal pages: About Us, Departments, Research Papers, Ask Cathy, Submit a Case, Hall of Confirmed Truths and Contact.",
+  },
+  {
+    number: "0018",
+    title: "Home Page Enriched",
+    date: "July 2026",
+    text: "The homepage was enriched with statistics, mission, methods and a stronger institutional identity.",
+  },
+  {
+    number: "0019",
+    title: "Immersive Rooms Completed",
+    date: "July 2026",
+    text: "The main rooms of the Center were created: Laboratory, Greenhouse, Kitchen, Library, Cathy's Office, Suzie's Office and GPT's Technical Studio.",
+  },
+  {
+    number: "0020",
+    title: "Tomorrow’s Roadmap",
+    date: "July 2026",
+    text: "The next mission became clear: Grand Entrance Experience, public forms, admin portal and multilingual architecture.",
+  },
+  {
+    number: "0021",
+    title: "Discovery of the Center’s Purpose",
+    date: "July 2026",
+    text: "The team realized that the CWRC could become more than a humorous site: a free, educational and benevolent place built on humour, kindness and curiosity.",
+  },
+];
+
+export default function DevelopmentLogPage() {
+  return (
+    <main style={pageStyle}>
+      <section style={heroStyle}>
+        <p style={eyebrowStyle}>CWRC Archives</p>
+
+        <h1 style={titleStyle}>Development Log</h1>
+
+        <p style={subtitleStyle}>
+          The official memory of the Center’s creation.
+        </p>
+
+        <p style={bodyStyle}>
+          The Development Log preserves the history of the CWRC: technical
+          decisions, creative milestones, moments of confusion, successful
+          breakthroughs and the gradual birth of a fictional research center
+          built with humour, kindness and curiosity.
+        </p>
+
+        <div style={timelineStyle}>
+          {logs.map((log) => (
+            <article key={log.number} style={logCardStyle}>
+              <p style={logNumberStyle}>Development Log #{log.number}</p>
+              <h2 style={{ marginTop: 0 }}>{log.title}</h2>
+              <p style={dateStyle}>{log.date}</p>
+              <p style={{ lineHeight: "1.7" }}>{log.text}</p>
+            </article>
+          ))}
+        </div>
+
+        <div style={quoteStyle}>
+          <h2 style={{ marginTop: 0 }}>Official Archive Principle</h2>
+          <p style={{ lineHeight: "1.8", marginBottom: 0 }}>
+            “A project that keeps its memory can grow without forgetting why it
+            began.”
+          </p>
+        </div>
+
+        <div
+          style={{
+            marginTop: "40px",
+            display: "flex",
+            gap: "14px",
+            flexWrap: "wrap",
+          }}
+        >
+          <Link href="/home" style={buttonStyle}>
+            ← Return to Main Hall
+          </Link>
+
+          <Link href="/rooms" style={buttonStyle}>
+            Visit the Rooms
+          </Link>
+        </div>
+      </section>
+    </main>
+  );
+}
+
+const pageStyle = {
+  minHeight: "100vh",
+  backgroundColor: "#F7F1E6",
+  color: "#102A4C",
+  fontFamily: "Georgia, serif",
+  padding: "48px 24px",
+};
+
+const heroStyle = {
+  maxWidth: "1100px",
+  margin: "0 auto",
+  backgroundColor: "#FFFDF8",
+  borderRadius: "24px",
+  padding: "48px 32px",
+  boxShadow: "0 20px 50px rgba(16, 42, 76, 0.15)",
+};
+
+const eyebrowStyle = {
+  letterSpacing: "0.18em",
+  textTransform: "uppercase" as const,
+  color: "#8A6A3D",
+  fontSize: "0.85rem",
+};
+
+const titleStyle = {
+  fontSize: "clamp(2.5rem, 6vw, 5rem)",
+  lineHeight: "1",
+  margin: "12px 0",
+};
+
+const subtitleStyle = {
+  color: "#8A6A3D",
+  fontSize: "1.5rem",
+  lineHeight: "1.5",
+};
+
+const bodyStyle = {
+  fontSize: "1.15rem",
+  lineHeight: "1.8",
+  marginTop: "30px",
+};
+
+const timelineStyle = {
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+  gap: "20px",
+  marginTop: "36px",
+};
+
+const logCardStyle = {
+  backgroundColor: "#F7F1E6",
+  borderRadius: "18px",
+  padding: "24px",
+  borderTop: "6px solid #8A6A3D",
+};
+
+const logNumberStyle = {
+  color: "#8A6A3D",
+  fontWeight: "bold",
+  letterSpacing: "0.08em",
+  textTransform: "uppercase" as const,
+  fontSize: "0.8rem",
+};
+
+const dateStyle = {
+  color: "#8A6A3D",
+  fontWeight: "bold",
+};
+
+const quoteStyle = {
+  marginTop: "40px",
+  backgroundColor: "#102A4C",
+  color: "#F7F1E6",
+  padding: "28px",
+  borderRadius: "18px",
+};
+
+const buttonStyle = {
+  display: "inline-block",
+  padding: "14px 24px",
+  borderRadius: "999px",
+  backgroundColor: "#102A4C",
+  color: "#F7F1E6",
+  textDecoration: "none",
+  fontWeight: "bold",
+};
