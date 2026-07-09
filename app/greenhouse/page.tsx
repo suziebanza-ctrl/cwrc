@@ -1,107 +1,58 @@
-import Link from "next/link";
+import PageLayout from "../components/PageLayout";
 
-const plants = [
+const items = [
   {
-    name: "Medicinal Plants Collection",
-    text: "A collection dedicated to the study of traditional and modern uses of plants.",
+    name: "Plant Collections",
+    text: "A living collection of plants observed with patience, curiosity and proper labels.",
   },
   {
-    name: "Educational Plant Labels",
-    text: "Every plant is identified in French, English and Latin.",
+    name: "French, English and Latin Labels",
+    text: "Every plant should eventually be identified in three languages.",
   },
   {
-    name: "Observation Area",
-    text: "A quiet space for reading, reflection and scientific curiosity.",
+    name: "Research Tables",
+    text: "Used for notes, observations, botanical references and quiet discoveries.",
   },
   {
-    name: "Botanical Research",
-    text: "Where the team studies ecosystems, nutrition and the relationship between humans and nature.",
+    name: "Sunlight",
+    text: "The official assistant director of growth and good thinking.",
   },
 ];
 
 export default function GreenhousePage() {
   return (
-    <main style={pageStyle}>
-      <section style={heroStyle}>
-        <p style={eyebrowStyle}>CWRC Botanical Division</p>
+    <PageLayout>
+      <p style={eyebrowStyle}>CWRC Botanical Division</p>
 
-        <h1 style={titleStyle}>The Grand Greenhouse</h1>
+      <h1 style={titleStyle}>The Grand Greenhouse</h1>
 
-        <p style={subtitleStyle}>
-          Where plants, knowledge and patience grow together.
-        </p>
+      <p style={subtitleStyle}>
+        Where plants, patience and common sense grow together.
+      </p>
 
-        <img
-          src="/images/greenhouse.png"
-          alt="The CWRC Greenhouse"
-          style={imageStyle}
-        />
+      <img
+        src="/images/greenhouse.png"
+        alt="CWRC Greenhouse"
+        style={imageStyle}
+      />
 
-        <p style={bodyStyle}>
-          The CWRC greenhouse is a magnificent botanical sanctuary filled with
-          plants from many regions of the world. It serves as a place for
-          research, quiet observation and appreciation of living things.
-        </p>
+      <p style={bodyStyle}>
+        The CWRC greenhouse is a magnificent botanical space filled with plants,
+        research notes and quiet light. It is used for observation,
+        environmental thinking and learning to let ideas grow at their own pace.
+      </p>
 
-        <p style={bodyStyle}>
-          Every plant is carefully identified with its French, English and Latin
-          names so that visitors can learn while they explore.
-        </p>
-
-        <div style={gridStyle}>
-          {plants.map((plant) => (
-            <article key={plant.name} style={cardStyle}>
-              <h2 style={{ marginTop: 0 }}>{plant.name}</h2>
-              <p style={{ lineHeight: "1.7" }}>{plant.text}</p>
-            </article>
-          ))}
-        </div>
-
-        <div style={quoteStyle}>
-          <h2 style={{ marginTop: 0 }}>Official CWRC Botanical Observation</h2>
-
-          <p style={{ lineHeight: "1.8", marginBottom: 0 }}>
-            "Plants teach patience. Growth often happens quietly."
-          </p>
-        </div>
-
-        <div
-          style={{
-            marginTop: "40px",
-            display: "flex",
-            gap: "14px",
-            flexWrap: "wrap",
-          }}
-        >
-          <Link href="/rooms" style={buttonStyle}>
-            ← Back to Rooms
-          </Link>
-
-          <Link href="/" style={buttonStyle}>
-            Return Home
-          </Link>
-        </div>
-      </section>
-    </main>
+      <div style={gridStyle}>
+        {items.map((item) => (
+          <article key={item.name} style={cardStyle}>
+            <h2 style={{ marginTop: 0 }}>{item.name}</h2>
+            <p style={{ lineHeight: "1.7" }}>{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </PageLayout>
   );
 }
-
-const pageStyle = {
-  minHeight: "100vh",
-  backgroundColor: "#F7F1E6",
-  color: "#102A4C",
-  fontFamily: "Georgia, serif",
-  padding: "48px 24px",
-};
-
-const heroStyle = {
-  maxWidth: "1100px",
-  margin: "0 auto",
-  backgroundColor: "#FFFDF8",
-  borderRadius: "24px",
-  padding: "48px 32px",
-  boxShadow: "0 20px 50px rgba(16, 42, 76, 0.15)",
-};
 
 const eyebrowStyle = {
   letterSpacing: "0.18em",
@@ -147,22 +98,4 @@ const cardStyle = {
   borderRadius: "18px",
   padding: "24px",
   borderTop: "6px solid #8A6A3D",
-};
-
-const quoteStyle = {
-  marginTop: "40px",
-  backgroundColor: "#102A4C",
-  color: "#F7F1E6",
-  padding: "28px",
-  borderRadius: "18px",
-};
-
-const buttonStyle = {
-  display: "inline-block",
-  padding: "14px 24px",
-  borderRadius: "999px",
-  backgroundColor: "#102A4C",
-  color: "#F7F1E6",
-  textDecoration: "none",
-  fontWeight: "bold",
 };

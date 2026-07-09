@@ -1,6 +1,6 @@
-import Link from "next/link";
+import PageLayout from "../components/PageLayout";
 
-const libraryItems = [
+const items = [
   {
     name: "Grand Reading Hall",
     text: "The central space where books, ideas and quiet suspicions gather.",
@@ -21,88 +21,44 @@ const libraryItems = [
 
 export default function LibraryPage() {
   return (
-    <main style={pageStyle}>
-      <section style={heroStyle}>
-        <p style={eyebrowStyle}>CWRC Knowledge Division</p>
+    <PageLayout>
+      <p style={eyebrowStyle}>CWRC Knowledge Division</p>
 
-        <h1 style={titleStyle}>The Grand Library</h1>
+      <h1 style={titleStyle}>The Grand Library</h1>
 
-        <p style={subtitleStyle}>
-          Where old books, quiet animals and inconvenient evidence meet.
-        </p>
+      <p style={subtitleStyle}>
+        Where old books, quiet animals and inconvenient evidence meet.
+      </p>
 
-        <img
-          src="/images/bibliotheque.png"
-          alt="The Grand Library of the CWRC"
-          style={imageStyle}
-        />
+      <img
+        src="/images/bibliotheque.png"
+        alt="The Grand Library of the CWRC"
+        style={imageStyle}
+      />
 
-        <p style={bodyStyle}>
-          The Grand Library is the intellectual heart of the CWRC. It preserves
-          books, references, research drafts, archives and the slow wisdom that
-          comes from reading before speaking.
-        </p>
+      <p style={bodyStyle}>
+        The Grand Library is the intellectual heart of the CWRC. It preserves
+        books, references, research drafts, archives and the slow wisdom that
+        comes from reading before speaking.
+      </p>
 
-        <p style={bodyStyle}>
-          It is also home to Jenny, with secret passages for the animals and
-          quiet corners where Capone and Niko may supervise knowledge from a
-          comfortable distance.
-        </p>
+      <p style={bodyStyle}>
+        It is also home to Jenny, with secret passages for the animals and quiet
+        corners where Capone and Niko may supervise knowledge from a comfortable
+        distance.
+      </p>
 
-        <div style={gridStyle}>
-          {libraryItems.map((item) => (
-            <article key={item.name} style={cardStyle}>
-              <h2 style={{ marginTop: 0 }}>{item.name}</h2>
-              <p style={{ lineHeight: "1.7" }}>{item.text}</p>
-            </article>
-          ))}
-        </div>
-
-        <div style={quoteStyle}>
-          <h2 style={{ marginTop: 0 }}>Official Library Principle</h2>
-          <p style={{ lineHeight: "1.8", marginBottom: 0 }}>
-            “A library does not argue loudly. It waits patiently until someone
-            is ready to learn.”
-          </p>
-        </div>
-
-        <div
-          style={{
-            marginTop: "40px",
-            display: "flex",
-            gap: "14px",
-            flexWrap: "wrap",
-          }}
-        >
-          <Link href="/rooms" style={buttonStyle}>
-            ← Back to Rooms
-          </Link>
-
-          <Link href="/" style={buttonStyle}>
-            Return Home
-          </Link>
-        </div>
-      </section>
-    </main>
+      <div style={gridStyle}>
+        {items.map((item) => (
+          <article key={item.name} style={cardStyle}>
+            <h2 style={{ marginTop: 0 }}>{item.name}</h2>
+            <p style={{ lineHeight: "1.7" }}>{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </PageLayout>
   );
 }
-
-const pageStyle = {
-  minHeight: "100vh",
-  backgroundColor: "#F7F1E6",
-  color: "#102A4C",
-  fontFamily: "Georgia, serif",
-  padding: "48px 24px",
-};
-
-const heroStyle = {
-  maxWidth: "1100px",
-  margin: "0 auto",
-  backgroundColor: "#FFFDF8",
-  borderRadius: "24px",
-  padding: "48px 32px",
-  boxShadow: "0 20px 50px rgba(16, 42, 76, 0.15)",
-};
 
 const eyebrowStyle = {
   letterSpacing: "0.18em",
@@ -148,22 +104,4 @@ const cardStyle = {
   borderRadius: "18px",
   padding: "24px",
   borderTop: "6px solid #8A6A3D",
-};
-
-const quoteStyle = {
-  marginTop: "40px",
-  backgroundColor: "#102A4C",
-  color: "#F7F1E6",
-  padding: "28px",
-  borderRadius: "18px",
-};
-
-const buttonStyle = {
-  display: "inline-block",
-  padding: "14px 24px",
-  borderRadius: "999px",
-  backgroundColor: "#102A4C",
-  color: "#F7F1E6",
-  textDecoration: "none",
-  fontWeight: "bold",
 };

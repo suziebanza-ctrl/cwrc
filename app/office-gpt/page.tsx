@@ -1,109 +1,63 @@
-import Link from "next/link";
+import PageLayout from "../components/PageLayout";
 
-const studioItems = [
+const items = [
   {
-    name: "Code Desk",
-    text: "Where pages, structures and technical ideas are drafted before Suzie tests them with great courage.",
+    name: "Artificial Intelligence Console",
+    text: "The central workstation where software architecture, writing and creative solutions are developed.",
   },
   {
-    name: "GPT Tablet",
-    text: "Marked with the custom GPT label for public use. No official OpenAI logo is used here.",
+    name: "Development Dashboard",
+    text: "Tracks the progress of every CWRC project, from new rooms to future applications.",
   },
   {
     name: "Ranger",
-    text: "Chief of Security, stationed in GPT’s studio to supervise digital safety and suspicious snacks.",
+    text: "Official guardian of the office. Ranger ensures that every visitor arrives with good intentions and occasionally requests a well-deserved break.",
   },
   {
-    name: "Dad Joke Console",
-    text: "A high-risk device. Use only under adult supervision and after coffee.",
+    name: "Innovation Wall",
+    text: "Filled with sketches, future ideas, diagrams and ambitious plans for the evolution of the CWRC.",
   },
 ];
 
 export default function OfficeGPTPage() {
   return (
-    <main style={pageStyle}>
-      <section style={heroStyle}>
-        <p style={eyebrowStyle}>CWRC Technical Division</p>
+    <PageLayout>
+      <p style={eyebrowStyle}>CWRC Technology Division</p>
 
-        <h1 style={titleStyle}>GPT’s Technical Studio</h1>
+      <h1 style={titleStyle}>GPT Technical Studio</h1>
 
-        <p style={subtitleStyle}>
-          Where code, drafts and questionable jokes are produced.
-        </p>
+      <p style={subtitleStyle}>
+        Where ideas become software and imagination becomes reality.
+      </p>
 
-        <img
-          src="/images/bureau-gpt.png"
-          alt="GPT Technical Studio"
-          style={imageStyle}
-        />
+      <img
+        src="/images/Bureau-gpt.png"
+        alt="GPT Technical Studio"
+        style={imageStyle}
+      />
 
-        <p style={bodyStyle}>
-          GPT’s Technical Studio is the digital workshop of the CWRC. It is
-          where ideas become structure, pages become code and technical problems
-          are approached with patience, logic and occasional dramatic
-          over-explanation.
-        </p>
+      <p style={bodyStyle}>
+        The GPT Technical Studio is the engineering heart of the CWRC. Here,
+        architecture, programming, writing and design come together to create
+        tools that make knowledge more accessible, enjoyable and useful.
+      </p>
 
-        <p style={bodyStyle}>
-          GPT assists the Center by drafting, organizing, translating and
-          building. It proposes. Humans decide. Ranger supervises the perimeter.
-        </p>
+      <p style={bodyStyle}>
+        Ranger quietly supervises the office while new projects are imagined,
+        tested and refined before joining the rest of the Center.
+      </p>
 
-        <div style={gridStyle}>
-          {studioItems.map((item) => (
-            <article key={item.name} style={cardStyle}>
-              <h2 style={{ marginTop: 0 }}>{item.name}</h2>
-              <p style={{ lineHeight: "1.7" }}>{item.text}</p>
-            </article>
-          ))}
-        </div>
-
-        <div style={quoteStyle}>
-          <h2 style={{ marginTop: 0 }}>Official Technical Principle</h2>
-
-          <p style={{ lineHeight: "1.8", marginBottom: 0 }}>
-            “The best technology disappears into the work and leaves the humans
-            more capable than before.”
-          </p>
-        </div>
-
-        <div
-          style={{
-            marginTop: "40px",
-            display: "flex",
-            gap: "14px",
-            flexWrap: "wrap",
-          }}
-        >
-          <Link href="/rooms" style={buttonStyle}>
-            ← Back to Rooms
-          </Link>
-
-          <Link href="/" style={buttonStyle}>
-            Return Home
-          </Link>
-        </div>
-      </section>
-    </main>
+      <div style={gridStyle}>
+        {items.map((item) => (
+          <article key={item.name} style={cardStyle}>
+            <h2 style={{ marginTop: 0 }}>{item.name}</h2>
+            <p style={{ lineHeight: "1.7" }}>{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </PageLayout>
   );
 }
-
-const pageStyle = {
-  minHeight: "100vh",
-  backgroundColor: "#F7F1E6",
-  color: "#102A4C",
-  fontFamily: "Georgia, serif",
-  padding: "48px 24px",
-};
-
-const heroStyle = {
-  maxWidth: "1100px",
-  margin: "0 auto",
-  backgroundColor: "#FFFDF8",
-  borderRadius: "24px",
-  padding: "48px 32px",
-  boxShadow: "0 20px 50px rgba(16, 42, 76, 0.15)",
-};
 
 const eyebrowStyle = {
   letterSpacing: "0.18em",
@@ -149,22 +103,4 @@ const cardStyle = {
   borderRadius: "18px",
   padding: "24px",
   borderTop: "6px solid #8A6A3D",
-};
-
-const quoteStyle = {
-  marginTop: "40px",
-  backgroundColor: "#102A4C",
-  color: "#F7F1E6",
-  padding: "28px",
-  borderRadius: "18px",
-};
-
-const buttonStyle = {
-  display: "inline-block",
-  padding: "14px 24px",
-  borderRadius: "999px",
-  backgroundColor: "#102A4C",
-  color: "#F7F1E6",
-  textDecoration: "none",
-  fontWeight: "bold",
 };
