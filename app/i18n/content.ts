@@ -162,6 +162,84 @@ export const forms: Record<Locale, {ask: FormContent; submit: FormContent}> = {
   es:{ask:{eyebrow:"Oficina de consultas públicas",title:"Preguntar a Cathy",subtitle:"Haz una pregunta. GPT puede organizar el borrador, pero Cathy conserva la última palabra.",notice:"Estado: este formulario es un prototipo visual. Todavía no envía información.",button:"Enviar la pregunta",fields:[{label:"Tu nombre",placeholder:"Opcional"},{label:"Tu correo electrónico",placeholder:"Opcional",kind:"email"},{label:"Categoría de la pregunta",kind:"select",options:["Sentido común","Nutrición","Historia","Mecánica","Caballos","Plantas","Otro misterio"]},{label:"Tu pregunta para Cathy",placeholder:"Escribe aquí tu pregunta…",kind:"textarea"}]},submit:{eyebrow:"Oficina de presentación de casos",title:"Presentar un caso",subtitle:"Para afirmaciones, sospechas y declaraciones que requieren la revisión oficial del CWRC.",notice:"Estado: este formulario es un prototipo visual. Todavía no envía información.",button:"Presentar el caso",fields:[{label:"Tu nombre",placeholder:"Opcional"},{label:"Tu correo electrónico",placeholder:"Opcional",kind:"email"},{label:"Categoría del caso",kind:"select",options:["Sentido común","Nutrición","Historia","Mecánica","Caballos","Plantas","Debate familiar","Otro"]},{label:"Afirmación que se investigará",placeholder:"Ejemplo: Cathy dijo que esto ocurriría…"},{label:"Contexto y pruebas",placeholder:"Describe la situación, lo ocurrido y por qué el CWRC debería investigar.",kind:"textarea"},{label:"Tipo de veredicto deseado",kind:"select",options:["¿Cathy tenía razón?","Necesita investigación","Posiblemente cierto","Revisión de sentido común","Se requiere supervisión animal"]}]}},
 };
 
+export const adminExperience: Record<Locale, {
+  thoughtLabel: string;
+  thought: string;
+  coffeeNote: string;
+  valuesTitle: string;
+  values: Card[];
+  deskTitle: string;
+  deskText: string;
+  draftsTitle: string;
+  draftsText: string;
+  proposalOne: string;
+  proposalTwo: string;
+  waiting: string;
+  choose: string;
+  edit: string;
+}> = {
+  fr: {
+    thoughtLabel: "Pensée positive du jour",
+    thought: "Chaque grande découverte commence par une question… et devient nettement plus convaincante après un café.",
+    coffeeNote: "Niveau de café : scientifiquement raisonnable",
+    valuesTitle: "Notre boussole officielle",
+    values: [
+      {title: "Humour", text: "Rire avec les gens, jamais à leurs dépens."},
+      {title: "Bienveillance", text: "Répondre avec respect, douceur et une bonne dose d’humanité."},
+      {title: "Curiosité", text: "Garder la porte ouverte aux questions, aux nuances et aux découvertes."},
+    ],
+    deskTitle: "Le bureau de révision de Cathy et Suzie",
+    deskText: "Les questions, les deux propositions de l’IA et les décisions finales se retrouveront ici. Les livres conseillent, le café soutient et les humaines décident.",
+    draftsTitle: "Les deux propositions de l’IA",
+    draftsText: "Pour chaque question, l’IA préparera deux réponses amusantes, bienveillantes et ouvertes à la curiosité.",
+    proposalOne: "Proposition 1 — L’érudite souriante",
+    proposalTwo: "Proposition 2 — La curieuse espiègle",
+    waiting: "En attente de la prochaine question digne d’une enquête du CWRC…",
+    choose: "Choisir cette proposition",
+    edit: "Modifier avant approbation",
+  },
+  en: {
+    thoughtLabel: "Positive thought of the day",
+    thought: "Every great discovery begins with a question… and becomes noticeably more convincing after coffee.",
+    coffeeNote: "Coffee level: scientifically reasonable",
+    valuesTitle: "Our official compass",
+    values: [
+      {title: "Humour", text: "Laugh with people, never at their expense."},
+      {title: "Kindness", text: "Respond with respect, warmth and a generous dose of humanity."},
+      {title: "Curiosity", text: "Keep the door open to questions, nuance and discovery."},
+    ],
+    deskTitle: "Cathy and Suzie’s review desk",
+    deskText: "Questions, two AI proposals and final decisions will gather here. Books advise, coffee supports and humans decide.",
+    draftsTitle: "The two AI proposals",
+    draftsText: "For every question, the AI will prepare two amusing, kind and curiosity-friendly responses.",
+    proposalOne: "Proposal 1 — The smiling scholar",
+    proposalTwo: "Proposal 2 — The playful explorer",
+    waiting: "Waiting for the next question worthy of a CWRC investigation…",
+    choose: "Choose this proposal",
+    edit: "Edit before approval",
+  },
+  es: {
+    thoughtLabel: "Pensamiento positivo del día",
+    thought: "Todo gran descubrimiento comienza con una pregunta… y resulta mucho más convincente después de un café.",
+    coffeeNote: "Nivel de café: científicamente razonable",
+    valuesTitle: "Nuestra brújula oficial",
+    values: [
+      {title: "Humor", text: "Reír con las personas, nunca a costa de ellas."},
+      {title: "Amabilidad", text: "Responder con respeto, calidez y una buena dosis de humanidad."},
+      {title: "Curiosidad", text: "Mantener la puerta abierta a las preguntas, los matices y los descubrimientos."},
+    ],
+    deskTitle: "El escritorio de revisión de Cathy y Suzie",
+    deskText: "Aquí se reunirán las preguntas, las dos propuestas de la IA y las decisiones finales. Los libros aconsejan, el café ayuda y las humanas deciden.",
+    draftsTitle: "Las dos propuestas de la IA",
+    draftsText: "Para cada pregunta, la IA preparará dos respuestas divertidas, amables y abiertas a la curiosidad.",
+    proposalOne: "Propuesta 1 — La erudita sonriente",
+    proposalTwo: "Propuesta 2 — La exploradora traviesa",
+    waiting: "Esperando la próxima pregunta digna de una investigación del CWRC…",
+    choose: "Elegir esta propuesta",
+    edit: "Editar antes de aprobar",
+  },
+};
+
 export function getContent(locale: Locale) {
   return content[locale];
 }

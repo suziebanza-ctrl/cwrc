@@ -1,21 +1,63 @@
 import Link from "next/link";
 import type {Locale} from "../i18n/config";
 import {localizedHref} from "../i18n/config";
-import {forms, getContent, type FormContent, type StandardPage} from "../i18n/content";
+import {adminExperience, forms, getContent, type FormContent, type StandardPage} from "../i18n/content";
 import Footer from "./Footer";
 import Header from "./Header";
 import PageLayout from "./PageLayout";
+import SubmissionForm from "./SubmissionForm";
 
 export default function LocalizedSite({locale,slug}:{locale:Locale;slug:string}) {
   const site=getContent(locale);
   if (!slug) return <Entrance locale={locale}/>;
   if (slug === "home") return <Home locale={locale}/>;
   if (slug === "rooms") return <Rooms locale={locale}/>;
-  if (slug === "ask-cathy") return <FormPage locale={locale} content={forms[locale].ask}/>;
-  if (slug === "submit-case") return <FormPage locale={locale} content={forms[locale].submit}/>;
+  if (slug === "ask-cathy") return <FormPage locale={locale} kind="ask" content={forms[locale].ask}/>;
+  if (slug === "submit-case") return <FormPage locale={locale} kind="case" content={forms[locale].submit}/>;
+  if (slug === "admin") return <AdminPage locale={locale}/>;
   const page=site.pages[slug];
   if (page) return <Standard locale={locale} page={page}/>;
   return <PageLayout locale={locale}><h1 style={titleStyle}>{site.common.notFoundTitle}</h1><p style={bodyStyle}>{site.common.notFoundText}</p></PageLayout>;
+}
+
+function AdminPage({locale}:{locale:Locale}) {
+  const site=getContent(locale);
+  const page=site.pages.admin;
+  const t=adminExperience[locale];
+  const valueIcons=["😄","💛","🔎"];
+
+  return <PageLayout locale={locale}>
+    <section style={adminHeroStyle}>
+      <div style={adminDecorStyle} aria-hidden="true"><span>📚</span><span style={coffeeStyle}>☕</span><span>📖</span></div>
+      <p style={adminEyebrowStyle}>{page.eyebrow}</p>
+      <h1 style={adminTitleStyle}>{page.title}</h1>
+      <p style={adminSubtitleStyle}>{page.subtitle}</p>
+      <div style={thoughtStyle}>
+        <span style={sparkleStyle}>✨</span>
+        <div><strong>{t.thoughtLabel}</strong><p style={{margin:"8px 0 0",lineHeight:1.7}}>{t.thought}</p></div>
+      </div>
+      <p style={coffeeNoteStyle}>☕ {t.coffeeNote}</p>
+    </section>
+
+    <section style={{marginTop:"40px"}}>
+      <h2 style={sectionHeadingStyle}>{t.valuesTitle}</h2>
+      <div style={valuesGridStyle}>{t.values.map((value,index)=><article key={value.title} style={valueCardStyle}><span style={valueIconStyle}>{valueIcons[index]}</span><h3 style={{fontSize:"1.5rem",margin:"8px 0"}}>{value.title}</h3><p style={{lineHeight:1.7,marginBottom:0}}>{value.text}</p></article>)}</div>
+    </section>
+
+    <section style={reviewDeskStyle}>
+      <div style={deskBooksStyle} aria-hidden="true">📚</div>
+      <div><h2 style={{fontSize:"2rem",margin:"0 0 10px"}}>{t.deskTitle}</h2><p style={{lineHeight:1.75,margin:0}}>{t.deskText}</p></div>
+    </section>
+
+    <section style={{marginTop:"38px"}}>
+      <h2 style={sectionHeadingStyle}>{t.draftsTitle}</h2>
+      <p style={{textAlign:"center",fontSize:"1.1rem",lineHeight:1.7,maxWidth:"760px",margin:"0 auto 24px"}}>{t.draftsText}</p>
+      <div style={draftGridStyle}>{[t.proposalOne,t.proposalTwo].map((title,index)=><article key={title} style={draftCardStyle}><div style={draftNumberStyle}>{index+1}</div><h3 style={{fontSize:"1.35rem"}}>{title}</h3><p style={waitingStyle}>{t.waiting}</p><div style={draftActionsStyle}><span style={disabledButtonStyle}>{t.choose}</span><span style={outlineButtonStyle}>{t.edit}</span></div></article>)}</div>
+    </section>
+
+    {page.panels?.map((panel,index)=><section key={index} style={panelStyle}><h2 style={{marginTop:0}}>{panel.title}</h2><p style={{lineHeight:1.7}}>{panel.text}</p></section>)}
+    <div style={gridStyle}>{page.cards?.map(card=><article key={card.title} style={adminToolCardStyle}><h2 style={{marginTop:0,fontSize:"1.25rem"}}>{card.title}</h2><p style={{lineHeight:1.7}}>{card.text}</p></article>)}</div>
+  </PageLayout>;
 }
 
 function Entrance({locale}:{locale:Locale}) {
@@ -55,8 +97,8 @@ function Standard({locale,page}:{locale:Locale;page:StandardPage}) {
   </PageLayout>;
 }
 
-function FormPage({locale,content}:{locale:Locale;content:FormContent}) {
-  return <PageLayout locale={locale}><p style={eyebrowStyle}>{content.eyebrow}</p><h1 style={titleStyle}>{content.title}</h1><p style={subtitleStyle}>{content.subtitle}</p><div style={panelStyle}>{content.notice}</div><form style={formStyle}>{content.fields.map((field,index)=><label key={`${field.label}-${index}`} style={labelStyle}>{field.label}{field.kind==="select"?<select style={inputStyle} defaultValue=""> <option value="" disabled>—</option>{field.options?.map(option=><option key={option}>{option}</option>)}</select>:field.kind==="textarea"?<textarea rows={8} placeholder={field.placeholder} style={textareaStyle}/>:<input type={field.kind??"text"} placeholder={field.placeholder} style={inputStyle}/>}</label>)}<button type="button" style={submitStyle}>{content.button}</button></form></PageLayout>;
+function FormPage({locale,kind,content}:{locale:Locale;kind:"ask"|"case";content:FormContent}) {
+  return <PageLayout locale={locale}><p style={eyebrowStyle}>{content.eyebrow}</p><h1 style={titleStyle}>{content.title}</h1><p style={subtitleStyle}>{content.subtitle}</p><SubmissionForm locale={locale} kind={kind} content={content}/></PageLayout>;
 }
 
 const entranceCss=`
@@ -87,8 +129,26 @@ const roomsGridStyle={display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax
 const roomCardStyle={backgroundColor:"#FFFDF8",borderRadius:"22px",overflow:"hidden",textDecoration:"none",color:"#102A4C",boxShadow:"0 12px 30px rgba(16,42,76,.12)"};
 const roomImageStyle={width:"100%",height:"230px",objectFit:"cover" as const};
 const smallButtonStyle={display:"inline-block",marginTop:"10px",padding:"10px 18px",borderRadius:"999px",background:"#102A4C",color:"#F7F1E6",fontWeight:"bold"};
-const formStyle={marginTop:"32px",display:"grid",gap:"22px"};
-const labelStyle={display:"grid",gap:"8px",fontWeight:"bold"};
-const inputStyle={padding:"14px 16px",borderRadius:"12px",border:"1px solid rgba(16,42,76,.25)",fontSize:"1rem",fontFamily:"Georgia,serif",backgroundColor:"white"};
-const textareaStyle={...inputStyle,resize:"vertical" as const};
-const submitStyle={justifySelf:"start",padding:"14px 26px",borderRadius:"999px",backgroundColor:"#102A4C",color:"#F7F1E6",border:"none",fontWeight:"bold",cursor:"pointer"};
+const adminHeroStyle={position:"relative" as const,overflow:"hidden",textAlign:"center" as const,background:"linear-gradient(145deg,#102A4C 0%,#193C68 68%,#8A6A3D 160%)",color:"#F7F1E6",borderRadius:"28px",padding:"48px 28px",boxShadow:"0 22px 50px rgba(16,42,76,.24)"};
+const adminDecorStyle={display:"flex",justifyContent:"center",alignItems:"flex-end",gap:"18px",fontSize:"3.2rem",marginBottom:"18px"};
+const coffeeStyle={fontSize:"4.8rem",filter:"drop-shadow(0 10px 10px rgba(0,0,0,.28))"};
+const adminEyebrowStyle={...eyebrowStyle,color:"#D8C49A"};
+const adminTitleStyle={fontSize:"clamp(2.6rem,6vw,5rem)",lineHeight:1,margin:"12px 0"};
+const adminSubtitleStyle={fontSize:"1.35rem",color:"#F1DFC0",lineHeight:1.5};
+const thoughtStyle={maxWidth:"760px",margin:"28px auto 0",display:"flex",gap:"16px",alignItems:"flex-start",textAlign:"left" as const,background:"rgba(255,253,248,.12)",border:"1px solid rgba(247,241,230,.3)",borderRadius:"18px",padding:"22px",backdropFilter:"blur(8px)"};
+const sparkleStyle={fontSize:"1.8rem"};
+const coffeeNoteStyle={display:"inline-block",margin:"20px 0 0",padding:"8px 14px",borderRadius:"999px",background:"#D8C49A",color:"#102A4C",fontWeight:"bold",fontSize:".9rem"};
+const sectionHeadingStyle={textAlign:"center" as const,fontSize:"2rem",marginBottom:"24px"};
+const valuesGridStyle={display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))",gap:"20px"};
+const valueCardStyle={textAlign:"center" as const,background:"linear-gradient(180deg,#FFFDF8,#F7F1E6)",borderRadius:"20px",padding:"26px",border:"1px solid rgba(138,106,61,.25)",boxShadow:"0 10px 24px rgba(16,42,76,.09)"};
+const valueIconStyle={fontSize:"2.4rem"};
+const reviewDeskStyle={marginTop:"42px",display:"grid",gridTemplateColumns:"auto 1fr",gap:"22px",alignItems:"center",backgroundColor:"#F1E4CA",borderRadius:"22px",padding:"28px",borderLeft:"8px solid #8A6A3D"};
+const deskBooksStyle={fontSize:"4rem"};
+const draftGridStyle={display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:"22px"};
+const draftCardStyle={position:"relative" as const,backgroundColor:"#FFFDF8",border:"2px dashed rgba(138,106,61,.4)",borderRadius:"20px",padding:"28px",boxShadow:"0 10px 24px rgba(16,42,76,.08)"};
+const draftNumberStyle={position:"absolute" as const,top:"16px",right:"16px",display:"grid",placeItems:"center",width:"34px",height:"34px",borderRadius:"50%",backgroundColor:"#102A4C",color:"#F7F1E6",fontWeight:"bold"};
+const waitingStyle={minHeight:"72px",padding:"18px",borderRadius:"12px",backgroundColor:"#F7F1E6",color:"#6E5B3F",fontStyle:"italic",lineHeight:1.6};
+const draftActionsStyle={display:"flex",gap:"10px",flexWrap:"wrap" as const,marginTop:"18px"};
+const disabledButtonStyle={padding:"10px 14px",borderRadius:"999px",backgroundColor:"#D8C49A",color:"#102A4C",fontWeight:"bold",fontSize:".88rem"};
+const outlineButtonStyle={padding:"9px 14px",borderRadius:"999px",border:"1px solid #102A4C",fontWeight:"bold",fontSize:".88rem"};
+const adminToolCardStyle={...cardStyle,borderTop:"none",borderLeft:"5px solid #8A6A3D",backgroundColor:"#FFF9EE"};
