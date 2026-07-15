@@ -6,6 +6,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import PageLayout from "./PageLayout";
 import SubmissionForm from "./SubmissionForm";
+import AdminPortal from "./AdminPortal";
 
 export default function LocalizedSite({locale,slug}:{locale:Locale;slug:string}) {
   const site=getContent(locale);
@@ -49,14 +50,14 @@ function AdminPage({locale}:{locale:Locale}) {
       <div><h2 style={{fontSize:"2rem",margin:"0 0 10px"}}>{t.deskTitle}</h2><p style={{lineHeight:1.75,margin:0}}>{t.deskText}</p></div>
     </section>
 
+    <AdminPortal locale={locale}/>
+
     <section style={{marginTop:"38px"}}>
       <h2 style={sectionHeadingStyle}>{t.draftsTitle}</h2>
       <p style={{textAlign:"center",fontSize:"1.1rem",lineHeight:1.7,maxWidth:"760px",margin:"0 auto 24px"}}>{t.draftsText}</p>
       <div style={draftGridStyle}>{[t.proposalOne,t.proposalTwo].map((title,index)=><article key={title} style={draftCardStyle}><div style={draftNumberStyle}>{index+1}</div><h3 style={{fontSize:"1.35rem"}}>{title}</h3><p style={waitingStyle}>{t.waiting}</p><div style={draftActionsStyle}><span style={disabledButtonStyle}>{t.choose}</span><span style={outlineButtonStyle}>{t.edit}</span></div></article>)}</div>
     </section>
 
-    {page.panels?.map((panel,index)=><section key={index} style={panelStyle}><h2 style={{marginTop:0}}>{panel.title}</h2><p style={{lineHeight:1.7}}>{panel.text}</p></section>)}
-    <div style={gridStyle}>{page.cards?.map(card=><article key={card.title} style={adminToolCardStyle}><h2 style={{marginTop:0,fontSize:"1.25rem"}}>{card.title}</h2><p style={{lineHeight:1.7}}>{card.text}</p></article>)}</div>
   </PageLayout>;
 }
 
