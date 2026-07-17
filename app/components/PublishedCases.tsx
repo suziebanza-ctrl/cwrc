@@ -3,67 +3,74 @@
 import { useEffect, useState } from "react";
 import type { Locale } from "../i18n/config";
 
-type PublishedAnswer = {
+type PublishedCase = {
   id: string;
   category: string;
-  question: string;
-  response: string;
-  answered_at: string | null;
+  statement: string;
+  context_and_evidence: string;
+  approved_verdict: string;
+  published_at: string | null;
 };
 
 const copy = {
   fr: {
-    title: "Les réponses officielles du CWRC",
+    eyebrow: "Archives officielles du CWRC",
+    title: "Le Hall des vérités confirmées",
     intro:
-      "Questions examinées, réponses approuvées et café scientifiquement supervisé.",
+      "Cas examinés par Cathy et Suzie, verdicts officiellement approuvés et café convenablement supervisé.",
     loading:
-      "Ouverture des archives publiques… le hibou cherche la bonne clé.",
+      "Ouverture du Hall… le hibou administratif cherche encore ses lunettes.",
     empty:
-      "Aucune réponse officielle n’est encore publiée. Le café profite de ce rare moment de calme.",
-    answer: "Réponse officielle",
-    published: "Approuvée le",
+      "Aucune vérité confirmée n’est encore exposée. Les cadres attendent patiemment.",
+    context: "Contexte et éléments",
+    verdict: "Verdict officiel du CWRC",
+    published: "Publié le",
     error:
-      "Les archives publiques refusent momentanément de s’ouvrir.",
+      "Les grandes portes du Hall refusent momentanément de s’ouvrir.",
   },
 
   en: {
-    title: "Official CWRC answers",
+    eyebrow: "Official CWRC archives",
+    title: "The Hall of Confirmed Truths",
     intro:
-      "Questions examined, answers approved, and coffee scientifically supervised.",
+      "Cases reviewed by Cathy and Suzie, officially approved verdicts, and properly supervised coffee.",
     loading:
-      "Opening the public archives… the owl is looking for the correct key.",
+      "Opening the Hall… the administrative owl is still looking for its glasses.",
     empty:
-      "No official response has been published yet. The coffee is enjoying this rare moment of peace.",
-    answer: "Official response",
-    published: "Approved on",
+      "No confirmed truth is currently on display. The frames are waiting patiently.",
+    context: "Context and evidence",
+    verdict: "Official CWRC verdict",
+    published: "Published on",
     error:
-      "The public archives temporarily refuse to open.",
+      "The great doors of the Hall temporarily refuse to open.",
   },
 
   es: {
-    title: "Respuestas oficiales del CWRC",
+    eyebrow: "Archivos oficiales del CWRC",
+    title: "El Salón de las Verdades Confirmadas",
     intro:
-      "Preguntas examinadas, respuestas aprobadas y café supervisado científicamente.",
+      "Casos examinados por Cathy y Suzie, veredictos oficialmente aprobados y café debidamente supervisado.",
     loading:
-      "Abriendo los archivos públicos… el búho busca la llave correcta.",
+      "Abriendo el Salón… el búho administrativo todavía busca sus gafas.",
     empty:
-      "Todavía no se ha publicado ninguna respuesta oficial. El café disfruta de este raro momento de calma.",
-    answer: "Respuesta oficial",
-    published: "Aprobada el",
+      "Todavía no hay verdades confirmadas expuestas. Los marcos esperan pacientemente.",
+    context: "Contexto y elementos",
+    verdict: "Veredicto oficial del CWRC",
+    published: "Publicado el",
     error:
-      "Los archivos públicos se niegan temporalmente a abrirse.",
+      "Las grandes puertas del Salón se niegan temporalmente a abrirse.",
   },
 } as const;
 
-export default function PublishedAnswers({
+export default function PublishedCases({
   locale,
 }: {
   locale: Locale;
 }) {
   const t = copy[locale];
 
-  const [answers, setAnswers] = useState<
-    PublishedAnswer[]
+  const [cases, setCases] = useState<
+    PublishedCase[]
   >([]);
 
   const [loading, setLoading] = useState(true);
@@ -74,7 +81,7 @@ export default function PublishedAnswers({
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
   useEffect(() => {
-    async function loadAnswers() {
+    async function loadCases() {
       if (!url || !key) {
         setError(true);
         setLoading(false);
@@ -85,31 +92,31 @@ export default function PublishedAnswers({
       setError(false);
 
       let selectedColumns =
-        "id,category,question,response,answered_at";
+        "id,category,statement,context_and_evidence,approved_verdict,published_at";
 
-      let responseField = "response";
+      let verdictField = "approved_verdict";
 
       if (locale === "en") {
         selectedColumns =
-          "id,category:category_en,question:question_en,response:response_en,answered_at";
+          "id,category:category_en,statement:statement_en,context_and_evidence:context_and_evidence_en,approved_verdict:approved_verdict_en,published_at";
 
-        responseField = "response_en";
+        verdictField = "approved_verdict_en";
       }
 
       if (locale === "es") {
         selectedColumns =
-          "id,category:category_es,question:question_es,response:response_es,answered_at";
+          "id,category:category_es,statement:statement_es,context_and_evidence:context_and_evidence_es,approved_verdict:approved_verdict_es,published_at";
 
-        responseField = "response_es";
+        verdictField = "approved_verdict_es";
       }
 
       try {
         const response = await fetch(
-          `${url}/rest/v1/ask_cathy_questions` +
+          `${url}/rest/v1/submitted_cases` +
             `?select=${selectedColumns}` +
-            `&status=eq.approved` +
-            `&${responseField}=not.is.null` +
-            `&order=answered_at.desc`,
+            `&status=eq.published` +
+            `&${verdictField}=not.is.null` +
+            `&order=published_at.desc`,
           {
             headers: {
               apikey: key,
@@ -119,25 +126,27 @@ export default function PublishedAnswers({
 
         if (!response.ok) {
           throw new Error(
-            "Unable to read answers",
+            "Unable to read cases",
           );
         }
 
-        setAnswers(await response.json());
+        setCases(await response.json());
       } catch {
-        setAnswers([]);
+        setCases([]);
         setError(true);
       } finally {
         setLoading(false);
       }
     }
 
-    void loadAnswers();
+    void loadCases();
   }, [url, key, locale]);
 
   return (
     <section style={sectionStyle}>
-      <p style={eyebrowStyle}>CWRC</p>
+      <p style={eyebrowStyle}>
+        {t.eyebrow}
+      </p>
 
       <h1 style={titleStyle}>{t.title}</h1>
 
@@ -145,7 +154,7 @@ export default function PublishedAnswers({
 
       {loading && (
         <p style={noticeStyle}>
-          ☕ {t.loading}
+          📚 {t.loading}
         </p>
       )}
 
@@ -157,7 +166,7 @@ export default function PublishedAnswers({
 
       {!loading &&
         !error &&
-        answers.length === 0 && (
+        cases.length === 0 && (
           <p style={noticeStyle}>
             {t.empty}
           </p>
@@ -165,9 +174,9 @@ export default function PublishedAnswers({
 
       {!loading &&
         !error &&
-        answers.length > 0 && (
-          <div style={answersStyle}>
-            {answers.map((item) => (
+        cases.length > 0 && (
+          <div style={casesStyle}>
+            {cases.map((item) => (
               <article
                 key={item.id}
                 style={cardStyle}
@@ -177,7 +186,7 @@ export default function PublishedAnswers({
                     {item.category}
                   </span>
 
-                  {item.answered_at && (
+                  {item.published_at && (
                     <span style={dateStyle}>
                       {t.published}{" "}
                       {new Intl.DateTimeFormat(
@@ -187,26 +196,38 @@ export default function PublishedAnswers({
                         },
                       ).format(
                         new Date(
-                          item.answered_at,
+                          item.published_at,
                         ),
                       )}
                     </span>
                   )}
                 </div>
 
-                <h2 style={questionStyle}>
-                  {item.question}
+                <h2 style={statementStyle}>
+                  {item.statement}
                 </h2>
 
-                <div style={answerStyle}>
-                  <strong
-                    style={answerLabelStyle}
-                  >
-                    {t.answer}
+                <div style={contextStyle}>
+                  <strong style={labelStyle}>
+                    {t.context}
                   </strong>
 
-                  <p style={responseStyle}>
-                    {item.response}
+                  <p style={textStyle}>
+                    {
+                      item.context_and_evidence
+                    }
+                  </p>
+                </div>
+
+                <div style={verdictStyle}>
+                  <strong
+                    style={verdictLabelStyle}
+                  >
+                    {t.verdict}
+                  </strong>
+
+                  <p style={textStyle}>
+                    {item.approved_verdict}
                   </p>
                 </div>
               </article>
@@ -228,6 +249,7 @@ const eyebrowStyle = {
   color: "#8A6A3D",
   fontWeight: "bold",
   fontSize: ".82rem",
+  textTransform: "uppercase" as const,
 };
 
 const titleStyle = {
@@ -239,7 +261,7 @@ const titleStyle = {
 };
 
 const introStyle = {
-  maxWidth: "760px",
+  maxWidth: "800px",
   margin: "20px auto 36px",
   textAlign: "center" as const,
   color: "#8A6A3D",
@@ -247,7 +269,7 @@ const introStyle = {
   lineHeight: 1.6,
 };
 
-const answersStyle = {
+const casesStyle = {
   display: "grid",
   gap: "26px",
 };
@@ -283,32 +305,45 @@ const dateStyle = {
   fontSize: ".85rem",
 };
 
-const questionStyle = {
+const statementStyle = {
   margin: "22px 0",
   color: "#102A4C",
   fontSize: "1.65rem",
   lineHeight: 1.35,
 };
 
-const answerStyle = {
-  padding: "22px",
-  borderRadius: "17px",
+const contextStyle = {
+  padding: "20px",
+  borderRadius: "16px",
   backgroundColor: "#F7F1E6",
-  borderLeft: "7px solid #8A6A3D",
+  marginBottom: "18px",
 };
 
-const answerLabelStyle = {
+const verdictStyle = {
+  padding: "22px",
+  borderRadius: "17px",
+  backgroundColor: "#102A4C",
+  color: "#F7F1E6",
+  borderLeft: "7px solid #D8C49A",
+};
+
+const labelStyle = {
+  display: "block",
+  marginBottom: "10px",
+  color: "#8A6A3D",
+};
+
+const verdictLabelStyle = {
   display: "block",
   marginBottom: "12px",
-  color: "#8A6A3D",
+  color: "#D8C49A",
   letterSpacing: ".06em",
   textTransform: "uppercase" as const,
   fontSize: ".82rem",
 };
 
-const responseStyle = {
+const textStyle = {
   margin: 0,
-  color: "#102A4C",
   fontSize: "1.08rem",
   lineHeight: 1.8,
   whiteSpace: "pre-wrap" as const,

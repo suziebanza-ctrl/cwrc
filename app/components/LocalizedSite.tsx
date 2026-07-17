@@ -7,6 +7,9 @@ import Header from "./Header";
 import PageLayout from "./PageLayout";
 import SubmissionForm from "./SubmissionForm";
 import AdminDraftWorkspace from "./AdminDraftWorkspace";
+import PublishedCases from "./PublishedCases";
+import PublicArchives from "./PublicArchives";
+import AdministrativeOffice from "./AdministrativeOffice";
 
 export default function LocalizedSite({locale,slug}:{locale:Locale;slug:string}) {
   const site=getContent(locale);
@@ -16,6 +19,8 @@ export default function LocalizedSite({locale,slug}:{locale:Locale;slug:string})
   if (slug === "ask-cathy") return <FormPage locale={locale} kind="ask" content={forms[locale].ask}/>;
   if (slug === "submit-case") return <FormPage locale={locale} kind="case" content={forms[locale].submit}/>;
   if (slug === "admin") return <AdminPage locale={locale}/>;
+  if (slug === "confirmed-truths") return <PageLayout locale={locale}><PublishedCases locale={locale}/></PageLayout>;
+  if (slug === "administrative-office") return <PageLayout locale={locale}><AdministrativeOffice locale={locale}/></PageLayout>;
   const page=site.pages[slug];
   if (page) return <Standard locale={locale} page={page}/>;
   return <PageLayout locale={locale}><h1 style={titleStyle}>{site.common.notFoundTitle}</h1><p style={bodyStyle}>{site.common.notFoundText}</p></PageLayout>;
@@ -73,7 +78,7 @@ function Home({locale}:{locale:Locale}) {
   return <main style={pageStyle}><Header locale={locale}/>
     <section style={heroStyle}><p style={eyebrowStyle}>{t.home.eyebrow}</p><h1 style={homeTitleStyle}>{t.home.title}</h1><p style={subtitleStyle}>{t.home.subtitle}</p><div style={observationStyle}><strong>{t.home.observationTitle}</strong><p>{t.home.observation}</p></div></section>
     <section style={sectionStyle}><h2 style={{textAlign:"center",fontSize:"2.2rem"}}>{t.home.explore}</h2><div style={mapStyle}>{t.home.places.map(place=><Link key={place.href} href={localizedHref(locale,place.href)} style={mapCardStyle}><span style={emojiStyle}>{place.emoji}</span><strong>{place.name}</strong><span style={enterStyle}>{t.common.enter}</span></Link>)}</div></section>
-    <section style={actionStyle}>{t.home.features.map(feature=><article key={feature.href} style={featureStyle}><h2>{feature.title}</h2><p style={{lineHeight:1.7}}>{feature.text}</p><Link href={localizedHref(locale,feature.href)} style={lightButtonStyle}>{feature.button}</Link></article>)}</section>
+   <PublicArchives locale={locale}/> <section style={actionStyle}>{t.home.features.map(feature=><article key={feature.href} style={featureStyle}><h2>{feature.title}</h2><p style={{lineHeight:1.7}}>{feature.text}</p><Link href={localizedHref(locale,feature.href)} style={lightButtonStyle}>{feature.button}</Link></article>)}</section>
     <Footer locale={locale}/>
   </main>;
 }
