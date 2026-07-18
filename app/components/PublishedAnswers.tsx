@@ -74,6 +74,8 @@ export default function PublishedAnswers({
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
   useEffect(() => {
+    const controller = new AbortController();
+
     async function loadAnswers() {
       if (!url || !key) {
         setError(true);
@@ -84,36 +86,20 @@ export default function PublishedAnswers({
       setLoading(true);
       setError(false);
 
-      let selectedColumns =
-        "id,category,question,response,answered_at";
-
-      let responseField = "response";
-
-      if (locale === "en") {
-        selectedColumns =
-          "id,category:category_en,question:question_en,response:response_en,answered_at";
-
-        responseField = "response_en";
-      }
-
-      if (locale === "es") {
-        selectedColumns =
-          "id,category:category_es,question:question_es,response:response_es,answered_at";
-
-        responseField = "response_es";
-      }
-
       try {
         const response = await fetch(
-          `${url}/rest/v1/ask_cathy_questions` +
-            `?select=${selectedColumns}` +
-            `&status=eq.approved` +
-            `&${responseField}=not.is.null` +
-            `&order=answered_at.desc`,
+          `${url}/rest/v1/rpc/get_public_answers`,
           {
+            method: "POST",
             headers: {
-              apikey: key,
+              apikey: key!,
+              "Content-Type": "application/json",
             },
+            body: JSON.stringify({
+              p_locale: locale,
+            }),
+            signal: controller.signal,
+            cache: "no-store",
           },
         );
 
@@ -123,16 +109,34 @@ export default function PublishedAnswers({
           );
         }
 
-        setAnswers(await response.json());
-      } catch {
+        const data =
+          (await response.json()) as PublishedAnswer[];
+
+        if (!controller.signal.aborted) {
+          setAnswers(data);
+        }
+      } catch (loadError) {
+        if (
+          loadError instanceof DOMException &&
+          loadError.name === "AbortError"
+        ) {
+          return;
+        }
+
         setAnswers([]);
         setError(true);
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
       }
     }
 
     void loadAnswers();
+
+    return () => {
+      controller.abort();
+    };
   }, [url, key, locale]);
 
   return (

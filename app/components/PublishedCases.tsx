@@ -81,6 +81,8 @@ export default function PublishedCases({
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
   useEffect(() => {
+    const controller = new AbortController();
+
     async function loadCases() {
       if (!url || !key) {
         setError(true);
@@ -91,36 +93,20 @@ export default function PublishedCases({
       setLoading(true);
       setError(false);
 
-      let selectedColumns =
-        "id,category,statement,context_and_evidence,approved_verdict,published_at";
-
-      let verdictField = "approved_verdict";
-
-      if (locale === "en") {
-        selectedColumns =
-          "id,category:category_en,statement:statement_en,context_and_evidence:context_and_evidence_en,approved_verdict:approved_verdict_en,published_at";
-
-        verdictField = "approved_verdict_en";
-      }
-
-      if (locale === "es") {
-        selectedColumns =
-          "id,category:category_es,statement:statement_es,context_and_evidence:context_and_evidence_es,approved_verdict:approved_verdict_es,published_at";
-
-        verdictField = "approved_verdict_es";
-      }
-
       try {
         const response = await fetch(
-          `${url}/rest/v1/submitted_cases` +
-            `?select=${selectedColumns}` +
-            `&status=eq.published` +
-            `&${verdictField}=not.is.null` +
-            `&order=published_at.desc`,
+          `${url}/rest/v1/rpc/get_public_cases`,
           {
+            method: "POST",
             headers: {
-              apikey: key,
+              apikey: key!,
+              "Content-Type": "application/json",
             },
+            body: JSON.stringify({
+              p_locale: locale,
+            }),
+            signal: controller.signal,
+            cache: "no-store",
           },
         );
 
@@ -130,16 +116,34 @@ export default function PublishedCases({
           );
         }
 
-        setCases(await response.json());
-      } catch {
+        const data =
+          (await response.json()) as PublishedCase[];
+
+        if (!controller.signal.aborted) {
+          setCases(data);
+        }
+      } catch (loadError) {
+        if (
+          loadError instanceof DOMException &&
+          loadError.name === "AbortError"
+        ) {
+          return;
+        }
+
         setCases([]);
         setError(true);
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
       }
     }
 
     void loadCases();
+
+    return () => {
+      controller.abort();
+    };
   }, [url, key, locale]);
 
   return (
