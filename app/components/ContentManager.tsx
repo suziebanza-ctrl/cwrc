@@ -65,6 +65,12 @@ type ContentForm = {
 };
 
 const rooms = {
+    home: {
+    label: "✨ Accueil — Quoi de neuf?",
+    objects: [
+      ["whats-new", "Dernière nouveauté du CWRC"],
+    ],
+  },
   kitchen: {
     label: "🍲 Cuisine",
     objects: [
@@ -118,6 +124,24 @@ const rooms = {
       ["tea", "Thé de quatre heures"],
       ["map", "Carte mondiale"],
       ["ranger", "Empreinte de Ranger"],
+    ],
+  },
+
+  "grand-salon": {
+    label: "🛋️ Grand Salon de détente",
+    objects: [
+      ["hourglass", "Sablier du CWRC"],
+      ["mask", "Masque mexicain"],
+      ["wall", "Tableau de la Grande Muraille"],
+      ["statues", "Statuettes africaines"],
+      ["perch", "Perchoir d’Amateur"],
+      ["window", "Fenêtre ouverte"],
+      ["apples", "Panier de pommes"],
+      ["cookies", "Jarre à biscuits"],
+      ["candy", "Pots de bonbons"],
+      ["capone", "Capone"],
+      ["niko", "Niko"],
+      ["amateur", "Amateur"],
     ],
   },
 

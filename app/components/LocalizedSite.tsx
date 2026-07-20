@@ -24,7 +24,8 @@ import RecipeBook from "./RecipeBook";
 import InteractiveLibrary from "./InteractiveLibrary";
 import JokeBook from "./JokeBook";
 import ContentManager from "./ContentManager";
-
+import GrandSalonPage from "./GrandSalonPage";
+import HomeWhatsNew from "./HomeWhatsNew";
 export default function LocalizedSite({
   locale,
   slug,
@@ -117,7 +118,13 @@ export default function LocalizedSite({
       </PageLayout>
     );
   }
-
+  if (slug === "grand-salon") {
+    return (
+      <PageLayout locale={locale}>
+        <GrandSalonPage locale={locale} />
+      </PageLayout>
+    );
+  }
   if (slug === "office-suzie") {
     return (
       <PageLayout locale={locale}>
@@ -378,13 +385,7 @@ function Home({
           {t.home.subtitle}
         </p>
 
-        <div style={observationStyle}>
-          <strong>
-            {t.home.observationTitle}
-          </strong>
-
-          <p>{t.home.observation}</p>
-        </div>
+                <HomeWhatsNew locale={locale} />
       </section>
 
       <section style={sectionStyle}>
@@ -638,13 +639,13 @@ function FormPage({
 }
 
 const entranceCss = `
-.entrance{min-height:100vh;background:radial-gradient(circle at top,#f7f1e6 0%,#102a4c 100%);color:#f7f1e6;font-family:Georgia,serif;display:flex;align-items:center;justify-content:center;padding:40px;overflow:hidden}
+.entrance{min-height:100vh;background:radial-gradient(circle at top,#f7f1e6 0%,#102a4c 100%);color:#f7f1e6;font-family:Georgia,serif;display:flex;align-items:center;justify-content:center;padding:40px;overflow-x:hidden}
 .entranceContent{max-width:1180px;width:100%;text-align:center;animation:fadeIn 1.2s ease forwards}
 .entranceEyebrow{letter-spacing:.22em;text-transform:uppercase;color:#d8c49a;font-size:.9rem;margin-bottom:14px}
 .entranceTitle{font-size:clamp(2.7rem,7vw,6rem);line-height:.95;margin:0 0 16px;text-shadow:0 10px 30px rgba(0,0,0,.45)}
 .entranceValues{font-size:1.25rem;margin-bottom:28px}
 .imageLink{display:block}
-.facade{width:100%;max-height:60vh;object-fit:cover;border-radius:28px;box-shadow:0 30px 80px rgba(0,0,0,.42);border:1px solid rgba(247,241,230,.5);transition:transform .8s ease,filter .8s ease}
+.facade{display:block;width:100%;height:auto;object-fit:contain;border-radius:28px;box-shadow:0 30px 80px rgba(0,0,0,.42);border:1px solid rgba(247,241,230,.5);transition:transform .8s ease,filter .8s ease}
 .facade:hover{transform:scale(1.02);filter:brightness(1.08)}
 .tagline{font-size:1.35rem;color:#d8c49a;margin:28px 0 22px}
 .enterButton{display:inline-block;padding:16px 36px;border-radius:999px;background:#f7f1e6;color:#102a4c;text-decoration:none;font-weight:bold;font-size:1.1rem;box-shadow:0 16px 42px rgba(0,0,0,.32)}
