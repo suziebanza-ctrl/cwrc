@@ -2,6 +2,7 @@
 
 import {useState} from "react";
 import type {Locale} from "../i18n/config";
+import GrandSalonGramophone from "./GrandSalonGramophone";
 
 type ObjectId =
   | "hourglass"
@@ -34,6 +35,7 @@ type Copy = {
   discover: string;
   discoveriesTitle: string;
   mobileHint: string;
+  gramophone: string;
   objects: Record<ObjectId, {name: string; story: string}>;
 };
 
@@ -63,6 +65,7 @@ const translations: Record<Locale, Copy> = {
     discoveriesTitle: "Les objets et petites histoires du salon",
     mobileHint:
       "Faites glisser l’image vers la gauche ou la droite pour explorer tout le salon.",
+    gramophone: "Ouvrir le gramophone et choisir une musique",
     imageAlt:
       "Grand salon du CWRC avec canapés de cuir, bibliothèque, objets d’art, tapis persan et fenêtre ouverte",
     objects: {
@@ -127,6 +130,7 @@ const translations: Record<Locale, Copy> = {
     discoveriesTitle: "Lounge objects and little stories",
     mobileHint:
       "Swipe the image left or right to explore the entire lounge.",
+    gramophone: "Open the gramophone and choose some music",
     imageAlt:
       "The CWRC Grand Lounge with leather sofas, a bookcase, art objects, a Persian rug, and an open window",
     objects: {
@@ -191,6 +195,7 @@ const translations: Record<Locale, Copy> = {
     discoveriesTitle: "Objetos y pequeñas historias del salón",
     mobileHint:
       "Desliza la imagen hacia la izquierda o la derecha para explorar todo el salón.",
+    gramophone: "Abrir el gramófono y elegir música",
     imageAlt:
       "El Gran Salón del CWRC con sofás de cuero, biblioteca, objetos de arte, alfombra persa y ventana abierta",
     objects: {
@@ -245,6 +250,7 @@ const translations: Record<Locale, Copy> = {
 
 export default function GrandSalonPage({locale}: {locale: Locale}) {
   const [selectedId, setSelectedId] = useState<ObjectId | null>(null);
+  const [gramophoneOpen, setGramophoneOpen] = useState(false);
   const text = translations[locale];
   const selectedObject = selectedId ? text.objects[selectedId] : null;
 
@@ -283,6 +289,21 @@ export default function GrandSalonPage({locale}: {locale: Locale}) {
             src="/images/niko-marche.png"
             alt="Niko"
           />
+
+          <button
+            type="button"
+            className="gramophoneButton"
+            aria-label={text.gramophone}
+            title={text.gramophone}
+            onClick={() => setGramophoneOpen(true)}
+          >
+            <img
+              src="/images/gramophone-table-cwrc.png"
+              alt=""
+              aria-hidden="true"
+            />
+            <span>♫</span>
+          </button>
 
           <button
             type="button"
@@ -396,6 +417,13 @@ export default function GrandSalonPage({locale}: {locale: Locale}) {
         </div>
       )}
 
+      {gramophoneOpen && (
+        <GrandSalonGramophone
+          locale={locale}
+          onClose={() => setGramophoneOpen(false)}
+        />
+      )}
+
       <style jsx>{`
         .salonPage {
           min-height: 100vh;
@@ -487,6 +515,55 @@ export default function GrandSalonPage({locale}: {locale: Locale}) {
           height: auto;
           filter: drop-shadow(0 5px 4px rgba(0, 0, 0, 0.35));
           animation: nikoWalk 20s linear infinite;
+        }
+
+        .gramophoneButton {
+          position: absolute;
+          z-index: 9;
+          left: 43%;
+          top: 46%;
+          width: 15%;
+          padding: 0;
+          cursor: pointer;
+          border: 0;
+          background: transparent;
+          filter: drop-shadow(0 8px 7px rgba(0, 0, 0, 0.38));
+          transform-origin: center bottom;
+          transition:
+            transform 180ms ease,
+            filter 180ms ease;
+        }
+
+        .gramophoneButton img {
+          display: block;
+          width: 100%;
+          height: auto;
+        }
+
+        .gramophoneButton span {
+          position: absolute;
+          right: -3px;
+          top: 8%;
+          display: grid;
+          width: 42px;
+          height: 42px;
+          place-items: center;
+          color: #fff8d3;
+          font-size: 1.45rem;
+          border: 2px solid #fff1b8;
+          border-radius: 50%;
+          background: #173a62;
+          box-shadow:
+            0 0 0 5px rgba(231, 189, 89, 0.34),
+            0 4px 10px rgba(0, 0, 0, 0.34);
+          animation: pulse 2.2s infinite;
+        }
+
+        .gramophoneButton:hover,
+        .gramophoneButton:focus-visible {
+          filter: drop-shadow(0 11px 9px rgba(0, 0, 0, 0.48));
+          outline: none;
+          transform: translateY(-5px) scale(1.035);
         }
 
         .amateurButton {
@@ -837,6 +914,10 @@ export default function GrandSalonPage({locale}: {locale: Locale}) {
             font-size: 1.6rem;
           }
 
+          .gramophoneButton {
+            width: 16%;
+          }
+
           .objectSection {
             margin-top: 28px;
           }
@@ -893,6 +974,7 @@ export default function GrandSalonPage({locale}: {locale: Locale}) {
 
         @media (prefers-reduced-motion: reduce) {
           .hotspotMarker,
+          .gramophoneButton span,
           .capone,
           .niko,
           .amateur {

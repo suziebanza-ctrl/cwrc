@@ -569,6 +569,43 @@ function WorldMap({
       );
     }
 
+    /*
+     * Le cadrage automatique convient à l'Afrique, mais les territoires
+     * éloignés et les frontières transcontinentales décentrent les autres
+     * continents. Ces vues gardent le continent choisi et le pays illuminé
+     * entièrement visibles dans le cadre.
+     */
+    const continentView = {
+      Americas: {
+        longitude: -90,
+        latitude: 12,
+        scale: 225,
+      },
+      Asia: {
+        longitude: 95,
+        latitude: 32,
+        scale: 235,
+      },
+      Europe: {
+        longitude: 18,
+        latitude: 51,
+        scale: 510,
+      },
+      Oceania: {
+        longitude: 145,
+        latitude: -18,
+        scale: 340,
+      },
+    }[region];
+
+    if (continentView) {
+      return nextProjection
+        .rotate([-continentView.longitude, 0])
+        .center([0, continentView.latitude])
+        .scale(continentView.scale)
+        .translate([500, 245]);
+    }
+
     return nextProjection.fitExtent(
       [
         [35, 28],
