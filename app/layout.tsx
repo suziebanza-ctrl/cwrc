@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import {headers} from "next/headers";
 import "./globals.css";
 import {defaultLocale, isLocale} from "./i18n/config";
+import AmbientSoundscape from "./components/AmbientSoundscape";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +33,10 @@ export default async function RootLayout({
       lang={locale}
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        <AmbientSoundscape />
+      </body>
     </html>
   );
 }

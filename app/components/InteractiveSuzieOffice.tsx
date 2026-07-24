@@ -13,7 +13,8 @@ type ObjectKey =
   | "books"
   | "cwrc"
   | "smallGlobe"
-  | "largeGlobe";
+  | "largeGlobe"
+  | "secretPassage";
 
 const copy = {
   fr: {
@@ -61,6 +62,10 @@ const copy = {
       largeGlobe: {
         icon: "🌎",
         title: "Le Grand Défi mondial",
+      },
+      secretPassage: {
+        icon: "🖼️",
+        title: "Le passage secret des cinquante tableaux",
       },
     },
   },
@@ -111,6 +116,10 @@ const copy = {
         icon: "🌎",
         title: "The Great World Challenge",
       },
+      secretPassage: {
+        icon: "🖼️",
+        title: "The secret passage of fifty paintings",
+      },
     },
   },
 
@@ -160,6 +169,10 @@ const copy = {
         icon: "🌎",
         title: "El Gran Desafío Mundial",
       },
+      secretPassage: {
+        icon: "🖼️",
+        title: "El pasaje secreto de los cincuenta cuadros",
+      },
     },
   },
 } as const;
@@ -178,6 +191,7 @@ const hotspots: {
   { key: "cwrc", left: "72%", top: "9%" },
   { key: "smallGlobe", left: "16%", top: "69%" },
   { key: "largeGlobe", left: "90%", top: "37%" },
+  { key: "secretPassage", left: "57%", top: "34%" },
 ];
 
 export default function InteractiveSuzieOffice({
@@ -198,6 +212,16 @@ export default function InteractiveSuzieOffice({
     : null;
 
   function openObject(key: ObjectKey) {
+    if (key === "secretPassage") {
+      window.location.href =
+        localizedHref(
+          locale,
+          "secret-passage",
+        );
+
+      return;
+    }
+
     if (key === "smallGlobe") {
       window.location.href =
         `${localizedHref(

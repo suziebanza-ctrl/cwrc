@@ -19,6 +19,8 @@ import AdministrativeOffice from "./AdministrativeOffice";
 import AmateurOfficeCard from "./AmateurOfficeCard";
 import InteractiveSuzieOffice from "./InteractiveSuzieOffice";
 import GeographyGame from "./GeographyGame";
+import SecretArtPassage from "./SecretArtPassage";
+import CharismaPassage from "./CharismaPassage";
 import InteractiveKitchen from "./InteractiveKitchen";
 import RecipeBook from "./RecipeBook";
 import InteractiveLibrary from "./InteractiveLibrary";
@@ -106,7 +108,23 @@ export default function LocalizedSite({
   if (slug === "library") {
     return (
       <PageLayout locale={locale}>
-        <InteractiveLibrary />
+        <InteractiveLibrary locale={locale} />
+      </PageLayout>
+    );
+  }
+
+  if (slug === "secret-passage") {
+    return (
+      <PageLayout locale={locale}>
+        <SecretArtPassage locale={locale} />
+      </PageLayout>
+    );
+  }
+
+  if (slug === "charisma-passage") {
+    return (
+      <PageLayout locale={locale}>
+        <CharismaPassage locale={locale} />
       </PageLayout>
     );
   }
@@ -145,6 +163,7 @@ if (slug === "geography-game")
       <Standard
         locale={locale}
         page={page}
+        slug={slug}
       />
     );
   }
@@ -518,9 +537,11 @@ function Rooms({
 function Standard({
   locale,
   page,
+  slug,
 }: {
   locale: Locale;
   page: StandardPage;
+  slug: string;
 }) {
   return (
     <PageLayout locale={locale}>
@@ -600,6 +621,29 @@ function Standard({
               </p>
             </article>
           ))}
+        </div>
+      )}
+
+      {slug === "office-cathy" && (
+        <div style={{marginTop: "30px", textAlign: "center"}}>
+          <Link
+            href={localizedHref(locale, "charisma-passage")}
+            style={{
+              display: "inline-block",
+              padding: "13px 22px",
+              borderRadius: "999px",
+              background: "#102a4c",
+              color: "#fff",
+              textDecoration: "none",
+              fontWeight: 800,
+            }}
+          >
+            🖼️ {locale === "fr"
+              ? "Ouvrir le passage secret des cent présences"
+              : locale === "en"
+                ? "Open the secret passage of one hundred presences"
+                : "Abrir el pasaje secreto de las cien presencias"}
+          </Link>
         </div>
       )}
     </PageLayout>

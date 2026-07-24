@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import type { Locale } from "../i18n/config";
+import { localizedHref } from "../i18n/config";
 
 type LibraryObject =
   | "jokeBook"
@@ -129,7 +131,7 @@ const items: Record<
     spanish:
       "La estantería que no estaba allí",
     description:
-      "Passage secret découvert! En tirant le troisième livre, l’étagère pivote. En tirant le mauvais livre, on obtient seulement un dictionnaire de 900 pages.",
+      "Passage secret découvert! En tirant le troisième livre, l’étagère pivote et révèle la galerie des cinquante tableaux menant au bureau de Suzie.",
     secret: true,
   },
 
@@ -210,7 +212,11 @@ const secretKeys: LibraryObject[] = [
   "cathySign",
 ];
 
-export default function InteractiveLibrary() {
+export default function InteractiveLibrary({
+  locale = "fr",
+}: {
+  locale?: Locale;
+}) {
   const [selected, setSelected] =
     useState<LibraryObject | null>(
       null,
@@ -233,6 +239,26 @@ export default function InteractiveLibrary() {
   function openObject(
     key: LibraryObject,
   ) {
+    if (key === "secretShelf") {
+      window.location.href =
+        localizedHref(
+          locale,
+          "secret-passage",
+        );
+
+      return;
+    }
+
+    if (key === "cathySign") {
+      window.location.href =
+        localizedHref(
+          locale,
+          "charisma-passage",
+        );
+
+      return;
+    }
+
     if (key === "jokeBook") {
       window.location.href =
         "/library/jokes";

@@ -9,6 +9,12 @@ export function isLocale(value: string): value is Locale {
 }
 
 export function localizedHref(locale: Locale, path = "") {
-  const normalizedPath = path === "/" ? "" : path.startsWith("/") ? path : `/${path}`;
+  const normalizedPath =
+    path === "/"
+      ? ""
+      : path.startsWith("/")
+        ? path
+        : `/${path}`;
+
   return `/${locale}${normalizedPath}`;
 }
