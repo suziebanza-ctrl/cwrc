@@ -45,7 +45,7 @@ const objects: SalonObject[] = [
   {id: "wall", icon: "🖼️", left: "1%", top: "4%", width: "20%", height: "35%"},
   {id: "statues", icon: "🗿", left: "45%", top: "11%", width: "14%", height: "42%"},
   {id: "perch", icon: "🦉", left: "62%", top: "24%", width: "11%", height: "39%"},
-  {id: "window", icon: "🪟", left: "70%", top: "5%", width: "22%", height: "47%"},
+  {id: "window", icon: "🪟", left: "64%", top: "5%", width: "18%", height: "47%"},
   {id: "apples", icon: "🍎", left: "70%", top: "57%", width: "12%", height: "15%"},
   {id: "cookies", icon: "🍪", left: "82%", top: "57%", width: "8%", height: "17%"},
   {id: "candy", icon: "🍬", left: "77%", top: "68%", width: "21%", height: "20%"},
