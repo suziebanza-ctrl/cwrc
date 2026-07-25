@@ -16,8 +16,27 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "The Cathy Was Right Research Center",
-  description: "Where evidence catches up with Cathy.",
+  metadataBase: new URL("https://cwrc.netlify.app"),
+  applicationName: "The Cathy Was Always Right Center",
+  title: {
+    default: "CWRC | Jeux éducatifs, humour, art et univers imaginaire",
+    template: "%s | CWRC",
+  },
+  description:
+    "Découvrez The Cathy Was Always Right Center, un univers interactif où l’on apprend en jouant : géographie, histoire, art, musique, animaux, humour, énigmes et personnages étonnants.",
+  openGraph: {
+    type: "website",
+    siteName: "The Cathy Was Always Right Center",
+    title: "CWRC | Apprendre en jouant dans un univers imaginaire",
+    description:
+      "Jeux éducatifs, géographie, histoire, art, musique, animaux, humour et découvertes dans un univers interactif.",
+    url: "https://cwrc.netlify.app",
+    locale: "fr_CA",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default async function RootLayout({
