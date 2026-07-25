@@ -36,11 +36,22 @@ export async function generateMetadata({
             ? undefined
             : site.pages[key]?.title;
 
+   const pagePath = key ? `/${key}` : "";
+
   return {
     title: title
       ? `${title} | CWRC`
-      : "The Cathy Was Right Research Center",
+      : "The Cathy Was Always Right Center",
     description: site.entrance.tagline,
+    alternates: {
+      canonical: `/${locale}${pagePath}`,
+      languages: {
+        "fr-CA": `/fr${pagePath}`,
+        en: `/en${pagePath}`,
+        es: `/es${pagePath}`,
+        "x-default": `/fr${pagePath}`,
+      },
+    },
   };
 }
 
