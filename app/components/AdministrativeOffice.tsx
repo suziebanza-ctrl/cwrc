@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import type { Locale } from "../i18n/config";
+import { localizedHref } from "../i18n/config";
 
 type StoryKey =
   | "amateur"
@@ -236,6 +238,32 @@ export default function AdministrativeOffice({
             </button>
           );
         })}
+
+        <Link
+          href={localizedHref(locale, "imaginary-encounters")}
+          aria-label={
+            locale === "fr"
+              ? "Recueil d’histoires de rencontres imaginaires"
+              : locale === "en"
+                ? "Collection of imaginary encounter stories"
+                : "Colección de historias de encuentros imaginarios"
+          }
+          title={
+            locale === "fr"
+              ? "Ouvrir le recueil"
+              : locale === "en"
+                ? "Open the collection"
+                : "Abrir la colección"
+          }
+          style={{
+            ...hotspotStyle,
+            left: "78%",
+            top: "61%",
+            textDecoration: "none",
+          }}
+        >
+          📖
+        </Link>
       </div>
 
       <h2 style={exploreTitleStyle}>
@@ -243,6 +271,20 @@ export default function AdministrativeOffice({
       </h2>
 
       <div style={objectGridStyle}>
+        <Link
+          href={localizedHref(locale, "imaginary-encounters")}
+          style={{ ...objectButtonStyle, textDecoration: "none" }}
+        >
+          <span style={objectIconStyle}>📖</span>
+          <span>
+            {locale === "fr"
+              ? "Recueil de rencontres imaginaires"
+              : locale === "en"
+                ? "Imaginary encounters collection"
+                : "Colección de encuentros imaginarios"}
+          </span>
+        </Link>
+
         {(
           Object.keys(t.stories) as StoryKey[]
         ).map((key) => {

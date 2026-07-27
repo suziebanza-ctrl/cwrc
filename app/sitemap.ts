@@ -12,6 +12,8 @@ const routes = [
   "/greenhouse",
   "/hall",
   "/grand-salon",
+  "/theatre",
+  "/imaginary-encounters",
   "/home",
   "/kitchen",
   "/kitchen/recipes",

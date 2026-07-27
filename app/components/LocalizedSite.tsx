@@ -28,6 +28,9 @@ import JokeBook from "./JokeBook";
 import ContentManager from "./ContentManager";
 import GrandSalonPage from "./GrandSalonPage";
 import HomeWhatsNew from "./HomeWhatsNew";
+import TheatrePage from "./TheatrePage";
+import ImaginaryEncounterBook from "./ImaginaryEncounterBook";
+import TheatreStoryManager from "./TheatreStoryManager";
 export default function LocalizedSite({
   locale,
   slug,
@@ -140,6 +143,20 @@ export default function LocalizedSite({
     return (
       <PageLayout locale={locale}>
         <GrandSalonPage locale={locale} />
+      </PageLayout>
+    );
+  }
+  if (slug === "theatre") {
+    return (
+      <PageLayout locale={locale}>
+        <TheatrePage locale={locale} />
+      </PageLayout>
+    );
+  }
+  if (slug === "imaginary-encounters") {
+    return (
+      <PageLayout locale={locale}>
+        <ImaginaryEncounterBook locale={locale} />
       </PageLayout>
     );
   }
@@ -306,6 +323,8 @@ function AdminPage({
       <AdminDraftWorkspace locale={locale} />
 
       <ContentManager />
+
+      <TheatreStoryManager />
     </PageLayout>
   );
 }
