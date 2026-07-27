@@ -405,7 +405,6 @@ function Home({
   locale: Locale;
 }) {
   const t = getContent(locale);
-
   return (
     <main style={pageStyle}>
       <Header locale={locale} />
@@ -500,6 +499,26 @@ function Rooms({
   locale: Locale;
 }) {
   const t = getContent(locale);
+  const theatreRoom = {
+    fr: {
+      title: "Le Théâtre du CWRC",
+      text: "Artistes, musique, cinéma et rencontres imaginaires prennent vie sur la scène du Centre.",
+      image: "/images/theatre-cwrc.png",
+      href: "theatre",
+    },
+    en: {
+      title: "The CWRC Theatre",
+      text: "Artists, music, film and imaginary encounters come alive on the Center’s stage.",
+      image: "/images/theatre-cwrc.png",
+      href: "theatre",
+    },
+    es: {
+      title: "El Teatro del CWRC",
+      text: "Artistas, música, cine y encuentros imaginarios cobran vida en el escenario del Centro.",
+      image: "/images/theatre-cwrc.png",
+      href: "theatre",
+    },
+  }[locale];
 
   return (
     <PageLayout locale={locale}>
@@ -516,7 +535,7 @@ function Rooms({
       </p>
 
       <div style={roomsGridStyle}>
-        {t.rooms.cards.map((room) => (
+        {[...t.rooms.cards, theatreRoom].map((room) => (
           <Link
             key={room.href}
             href={localizedHref(
