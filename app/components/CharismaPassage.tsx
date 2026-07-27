@@ -24,6 +24,9 @@ const ui = {
     birth: "Date de naissance",
     place: "Lieu de naissance",
     category: "Domaine",
+    contribution: "Pourquoi cette personne a marqué l’histoire",
+    summaryLoading: "Résumé historique en préparation…",
+    summaryUnavailable: "Le résumé historique de cette personne sera ajouté prochainement.",
     close: "Fermer la fiche",
     library: "Retour à la bibliothèque",
     cathy: "Entrer dans le bureau de Cathy",
@@ -42,6 +45,9 @@ const ui = {
     birth: "Date of birth",
     place: "Place of birth",
     category: "Field",
+    contribution: "Why this person made history",
+    summaryLoading: "Preparing historical summary…",
+    summaryUnavailable: "A historical summary of this person will be added soon.",
     close: "Close the record",
     library: "Return to the library",
     cathy: "Enter Cathy’s office",
@@ -60,6 +66,9 @@ const ui = {
     birth: "Fecha de nacimiento",
     place: "Lugar de nacimiento",
     category: "Ámbito",
+    contribution: "Por qué esta persona dejó huella en la historia",
+    summaryLoading: "Preparando el resumen histórico…",
+    summaryUnavailable: "Próximamente se añadirá un resumen histórico de esta persona.",
     close: "Cerrar la ficha",
     library: "Volver a la biblioteca",
     cathy: "Entrar en la oficina de Cathy",
@@ -113,6 +122,8 @@ export default function CharismaPassage({locale}: {locale: Locale}) {
   const [wall, setWall] = useState<Wall | null>(null);
   const [selected, setSelected] = useState<CharismaticPerson | null>(null);
   const [images, setImages] = useState<Record<string, string>>({});
+  const [summaries, setSummaries] = useState<Record<string, string>>({});
+  const [summaryLoading, setSummaryLoading] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -181,6 +192,58 @@ export default function CharismaPassage({locale}: {locale: Locale}) {
       cancelled = true;
     };
   }, []);
+
+  useEffect(() => {
+    if (!selected) return;
+
+    const cacheKey = `${locale}:${selected.id}`;
+    if (summaries[cacheKey]) return;
+
+    let cancelled = false;
+
+    async function loadSummary() {
+      setSummaryLoading(true);
+      const searchName = locale === "en" ? selected?.wiki : selected?.name;
+      const params = new URLSearchParams({
+        action: "query",
+        format: "json",
+        origin: "*",
+        generator: "search",
+        gsrsearch: searchName ?? "",
+        gsrlimit: "1",
+        prop: "extracts",
+        exintro: "1",
+        explaintext: "1",
+        exsentences: "2",
+      });
+
+      try {
+        const response = await fetch(
+          `https://${locale}.wikipedia.org/w/api.php?${params.toString()}`,
+        );
+        if (!response.ok) return;
+
+        const data = await response.json();
+        const page = Object.values(data?.query?.pages ?? {})[0] as
+          | {extract?: string}
+          | undefined;
+        const summary = page?.extract?.trim();
+
+        if (!cancelled && summary) {
+          setSummaries((current) => ({...current, [cacheKey]: summary}));
+        }
+      } catch {
+        // The record remains usable if Wikipedia is temporarily unavailable.
+      } finally {
+        if (!cancelled) setSummaryLoading(false);
+      }
+    }
+
+    void loadSummary();
+    return () => {
+      cancelled = true;
+    };
+  }, [locale, selected, summaries]);
 
   const visible = useMemo(
     () =>
@@ -278,6 +341,14 @@ export default function CharismaPassage({locale}: {locale: Locale}) {
                 <div><dt>{t.place}</dt><dd>{selected.place}</dd></div>
                 <div><dt>{t.category}</dt><dd>{categoryLabels[locale][selected.category]}</dd></div>
               </dl>
+              <section className="contribution" aria-labelledby="charisma-contribution-title">
+                <h3 id="charisma-contribution-title">{t.contribution}</h3>
+                <p>
+                  {summaryLoading
+                    ? t.summaryLoading
+                    : summaries[`${locale}:${selected.id}`] ?? t.summaryUnavailable}
+                </p>
+              </section>
               <a href={`https://en.wikipedia.org/wiki/${encodeURIComponent(selected.wiki.replace(/ /g, "_"))}`} target="_blank" rel="noreferrer">
                 {t.source} ↗
               </a>
@@ -288,7 +359,7 @@ export default function CharismaPassage({locale}: {locale: Locale}) {
       )}
 
       <style jsx>{`
-        .passage{width:min(1540px,100%);margin:0 auto;padding:24px 16px 65px;color:#2d211b}.eyebrow{text-align:center;text-transform:uppercase;letter-spacing:.18em;color:#8d692e;font-size:.78rem;font-weight:900}h1{max-width:1100px;margin:12px auto;color:#102a4c;font:700 clamp(2.4rem,6vw,5rem)/1 Georgia,serif;text-align:center}.intro{max-width:920px;margin:22px auto;text-align:center;line-height:1.75;color:#654d38}.badges{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:22px auto 34px}.badges span{padding:9px 14px;border:1px solid #cbaa6b;border-radius:999px;background:#fffaf0;color:#624722;font-weight:800}.choice{min-height:570px;display:grid;align-content:center;padding:clamp(26px,6vw,80px);border:10px solid #30231e;border-radius:30px;background:linear-gradient(90deg,#3b2a25 0 4%,#9b7659 4% 49.5%,#251b18 49.5% 50.5%,#88664e 50.5% 96%,#3b2a25 96%);box-shadow:inset 0 0 90px rgba(20,13,10,.55),0 24px 60px rgba(33,22,13,.25)}.choice h2{text-align:center;color:#fff8df;text-shadow:0 2px 5px #1a110d;font:700 clamp(1.5rem,4vw,2.6rem) Georgia,serif}.choice>div{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(18px,4vw,55px);max-width:1000px;margin:25px auto;width:100%}.choice button{min-height:235px;display:grid;place-items:center;padding:28px;cursor:pointer;border:7px double #e4c77e;border-radius:20px;background:rgba(16,42,76,.95);color:#fff9e7;box-shadow:0 14px 35px rgba(0,0,0,.4);transition:transform .18s ease}.choice button:hover,.choice button:focus-visible{transform:translateY(-7px) scale(1.02);outline:4px solid rgba(255,245,190,.5)}.choice b{font-size:3.7rem}.choice strong{font:700 clamp(1.2rem,3vw,2rem) Georgia,serif}.choice small{color:#e7ca83}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:18px;padding:13px 18px;border-radius:14px;background:#102a4c;color:#fff}.toolbar button{padding:9px 15px;cursor:pointer;border:1px solid #d7b66d;border-radius:999px;background:#fff9e8;color:#102a4c;font-weight:800}.portraitWall{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:clamp(10px,1.4vw,20px);padding:clamp(20px,3vw,42px);border:12px solid #30231e;border-radius:28px;background:#9b7659;background-image:linear-gradient(90deg,rgba(255,255,255,.06) 50%,transparent 50%),linear-gradient(rgba(45,26,18,.08) 50%,transparent 50%);background-size:24px 24px;box-shadow:inset 0 0 90px rgba(31,18,12,.45),0 24px 55px rgba(40,26,14,.24)}.portraitWall.right{background-color:#85644f}.portrait{position:relative;display:flex;flex-direction:column;align-items:center;min-width:0;padding:7px 6px 10px;cursor:pointer;border:0;border-radius:7px;background:#f4ead0;color:#281c15;box-shadow:0 7px 15px rgba(25,14,8,.4);transition:transform .18s ease,box-shadow .18s ease}.portrait:hover,.portrait:focus-visible{z-index:2;transform:translateY(-7px) scale(1.06);box-shadow:0 15px 28px rgba(25,14,8,.55);outline:3px solid #f5dc91}.photo{display:grid;place-items:center;width:100%;aspect-ratio:4/5;padding:5px;border:5px ridge #b88935;background:#39251a;overflow:hidden}.photo img{width:100%;height:100%;display:block;object-fit:cover;object-position:top center}.photo i,.recordPhoto i{display:grid;place-items:center;width:100%;height:100%;background:#102a4c;color:#e8cd8a;font:700 1.5rem Georgia,serif}.portrait strong{margin-top:8px;font:700 .78rem/1.15 Georgia,serif}.portrait small{margin-top:4px;color:#755332;font-size:.62rem;line-height:1.15}.number{position:absolute;z-index:1;top:2px;left:2px;padding:2px 5px;border-radius:999px;background:#102a4c;color:#fff;font-size:.58rem}.note{max-width:760px;margin:22px auto 0;text-align:center;color:#745737;font-style:italic}.passageNav{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;margin:25px auto 0}.passageNav a{padding:12px 18px;border-radius:999px;background:#102a4c;color:#fff;text-decoration:none;font-weight:800}.overlay{position:fixed;z-index:2100;inset:0;display:grid;place-items:center;padding:18px;background:rgba(16,11,9,.84);backdrop-filter:blur(7px)}.record{position:relative;display:grid;grid-template-columns:minmax(240px,460px) 1fr;gap:clamp(25px,5vw,65px);align-items:center;width:min(1100px,100%);max-height:94vh;overflow:auto;padding:clamp(22px,4vw,48px);border:6px solid #c5a158;border-radius:26px;background:#fffaf0;box-shadow:0 35px 90px rgba(0,0,0,.58)}.closeX{position:absolute;z-index:2;right:12px;top:8px;width:46px;height:46px;cursor:pointer;border:0;background:transparent;color:#58391f;font-size:2.3rem}.recordPhoto{display:grid;place-items:center;min-height:430px;border:10px ridge #b88935;background:#39251a;overflow:hidden}.recordPhoto img{width:100%;max-height:560px;display:block;object-fit:contain}.recordText>p{margin:0;color:#96702c;font-weight:900;text-transform:uppercase;letter-spacing:.11em}.recordText h2{margin:12px 0 25px;color:#102a4c;font:700 clamp(2.2rem,5vw,4.3rem)/1 Georgia,serif}.recordText dl{display:grid;gap:15px;margin:0 0 24px}.recordText dl div{padding:13px 15px;border-left:4px solid #c5a158;background:#fff}.recordText dt{color:#96702c;font-size:.72rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em}.recordText dd{margin:5px 0 0;color:#403022;font-size:1.12rem;line-height:1.45}.recordText a{color:#102a4c;font-weight:800}.closeButton{display:block;margin-top:25px;padding:12px 24px;cursor:pointer;border:0;border-radius:999px;background:#102a4c;color:#fff;font-weight:900}@media(max-width:1180px){.portraitWall{grid-template-columns:repeat(7,1fr)}}@media(max-width:900px){.portraitWall{grid-template-columns:repeat(5,1fr)}.record{grid-template-columns:1fr}.recordPhoto{min-height:300px}.recordPhoto img{max-height:430px}}@media(max-width:650px){.choice>div{grid-template-columns:1fr}.choice{min-height:500px}.portraitWall{grid-template-columns:repeat(2,1fr);padding:18px 12px;gap:12px}.toolbar{align-items:stretch;flex-direction:column}.portrait strong{font-size:.82rem}.portrait small{font-size:.68rem}.passageNav{flex-direction:column}.passageNav a{text-align:center}}@media(prefers-reduced-motion:reduce){.portrait,.choice button{transition:none}}
+        .passage{width:min(1540px,100%);margin:0 auto;padding:24px 16px 65px;color:#2d211b}.eyebrow{text-align:center;text-transform:uppercase;letter-spacing:.18em;color:#8d692e;font-size:.78rem;font-weight:900}h1{max-width:1100px;margin:12px auto;color:#102a4c;font:700 clamp(2.4rem,6vw,5rem)/1 Georgia,serif;text-align:center}.intro{max-width:920px;margin:22px auto;text-align:center;line-height:1.75;color:#654d38}.badges{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:22px auto 34px}.badges span{padding:9px 14px;border:1px solid #cbaa6b;border-radius:999px;background:#fffaf0;color:#624722;font-weight:800}.choice{min-height:570px;display:grid;align-content:center;padding:clamp(26px,6vw,80px);border:10px solid #30231e;border-radius:30px;background:linear-gradient(90deg,#3b2a25 0 4%,#9b7659 4% 49.5%,#251b18 49.5% 50.5%,#88664e 50.5% 96%,#3b2a25 96%);box-shadow:inset 0 0 90px rgba(20,13,10,.55),0 24px 60px rgba(33,22,13,.25)}.choice h2{text-align:center;color:#fff8df;text-shadow:0 2px 5px #1a110d;font:700 clamp(1.5rem,4vw,2.6rem) Georgia,serif}.choice>div{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(18px,4vw,55px);max-width:1000px;margin:25px auto;width:100%}.choice button{min-height:235px;display:grid;place-items:center;padding:28px;cursor:pointer;border:7px double #e4c77e;border-radius:20px;background:rgba(16,42,76,.95);color:#fff9e7;box-shadow:0 14px 35px rgba(0,0,0,.4);transition:transform .18s ease}.choice button:hover,.choice button:focus-visible{transform:translateY(-7px) scale(1.02);outline:4px solid rgba(255,245,190,.5)}.choice b{font-size:3.7rem}.choice strong{font:700 clamp(1.2rem,3vw,2rem) Georgia,serif}.choice small{color:#e7ca83}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:18px;padding:13px 18px;border-radius:14px;background:#102a4c;color:#fff}.toolbar button{padding:9px 15px;cursor:pointer;border:1px solid #d7b66d;border-radius:999px;background:#fff9e8;color:#102a4c;font-weight:800}.portraitWall{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:clamp(10px,1.4vw,20px);padding:clamp(20px,3vw,42px);border:12px solid #30231e;border-radius:28px;background:#9b7659;background-image:linear-gradient(90deg,rgba(255,255,255,.06) 50%,transparent 50%),linear-gradient(rgba(45,26,18,.08) 50%,transparent 50%);background-size:24px 24px;box-shadow:inset 0 0 90px rgba(31,18,12,.45),0 24px 55px rgba(40,26,14,.24)}.portraitWall.right{background-color:#85644f}.portrait{position:relative;display:flex;flex-direction:column;align-items:center;min-width:0;padding:7px 6px 10px;cursor:pointer;border:0;border-radius:7px;background:#f4ead0;color:#281c15;box-shadow:0 7px 15px rgba(25,14,8,.4);transition:transform .18s ease,box-shadow .18s ease}.portrait:hover,.portrait:focus-visible{z-index:2;transform:translateY(-7px) scale(1.06);box-shadow:0 15px 28px rgba(25,14,8,.55);outline:3px solid #f5dc91}.photo{display:grid;place-items:center;width:100%;aspect-ratio:4/5;padding:5px;border:5px ridge #b88935;background:#39251a;overflow:hidden}.photo img{width:100%;height:100%;display:block;object-fit:cover;object-position:top center}.photo i,.recordPhoto i{display:grid;place-items:center;width:100%;height:100%;background:#102a4c;color:#e8cd8a;font:700 1.5rem Georgia,serif}.portrait strong{margin-top:8px;font:700 .78rem/1.15 Georgia,serif}.portrait small{margin-top:4px;color:#755332;font-size:.62rem;line-height:1.15}.number{position:absolute;z-index:1;top:2px;left:2px;padding:2px 5px;border-radius:999px;background:#102a4c;color:#fff;font-size:.58rem}.note{max-width:760px;margin:22px auto 0;text-align:center;color:#745737;font-style:italic}.passageNav{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;margin:25px auto 0}.passageNav a{padding:12px 18px;border-radius:999px;background:#102a4c;color:#fff;text-decoration:none;font-weight:800}.overlay{position:fixed;z-index:2100;inset:0;display:grid;place-items:center;padding:18px;background:rgba(16,11,9,.84);backdrop-filter:blur(7px)}.record{position:relative;display:grid;grid-template-columns:minmax(240px,460px) 1fr;gap:clamp(25px,5vw,65px);align-items:center;width:min(1100px,100%);max-height:94vh;overflow:auto;padding:clamp(22px,4vw,48px);border:6px solid #c5a158;border-radius:26px;background:#fffaf0;box-shadow:0 35px 90px rgba(0,0,0,.58)}.closeX{position:absolute;z-index:2;right:12px;top:8px;width:46px;height:46px;cursor:pointer;border:0;background:transparent;color:#58391f;font-size:2.3rem}.recordPhoto{display:grid;place-items:center;min-height:430px;border:10px ridge #b88935;background:#39251a;overflow:hidden}.recordPhoto img{width:100%;max-height:560px;display:block;object-fit:contain}.recordText>p{margin:0;color:#96702c;font-weight:900;text-transform:uppercase;letter-spacing:.11em}.recordText h2{margin:12px 0 25px;color:#102a4c;font:700 clamp(2.2rem,5vw,4.3rem)/1 Georgia,serif}.recordText dl{display:grid;gap:15px;margin:0 0 24px}.recordText dl div{padding:13px 15px;border-left:4px solid #c5a158;background:#fff}.recordText dt{color:#96702c;font-size:.72rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em}.recordText dd{margin:5px 0 0;color:#403022;font-size:1.12rem;line-height:1.45}.contribution{margin:0 0 22px;padding:16px 18px;border-left:4px solid #102a4c;background:#f7f0df}.contribution h3{margin:0 0 8px;color:#8d692e;font-size:.78rem;letter-spacing:.07em;text-transform:uppercase}.contribution p{margin:0;color:#403022;font-size:1.02rem;line-height:1.55}.recordText a{color:#102a4c;font-weight:800}.closeButton{display:block;margin-top:25px;padding:12px 24px;cursor:pointer;border:0;border-radius:999px;background:#102a4c;color:#fff;font-weight:900}@media(max-width:1180px){.portraitWall{grid-template-columns:repeat(7,1fr)}}@media(max-width:900px){.portraitWall{grid-template-columns:repeat(5,1fr)}.record{grid-template-columns:1fr}.recordPhoto{min-height:300px}.recordPhoto img{max-height:430px}}@media(max-width:650px){.choice>div{grid-template-columns:1fr}.choice{min-height:500px}.portraitWall{grid-template-columns:repeat(2,1fr);padding:18px 12px;gap:12px}.toolbar{align-items:stretch;flex-direction:column}.portrait strong{font-size:.82rem}.portrait small{font-size:.68rem}.passageNav{flex-direction:column}.passageNav a{text-align:center}}@media(prefers-reduced-motion:reduce){.portrait,.choice button{transition:none}}
       `}</style>
     </section>
   );
