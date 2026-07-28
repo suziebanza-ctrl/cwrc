@@ -1,4 +1,5 @@
 import PageLayout from "../components/PageLayout";
+import type {Locale} from "../i18n/config";
 
 type Translation = {
   fr: string;
@@ -420,9 +421,9 @@ const toolGroups: {name: string; use: Translation}[] = [
   },
 ];
 
-export default function DevelopmentLogPage() {
+export default function DevelopmentLogPage({locale}: {locale?: Locale} = {}) {
   return (
-    <PageLayout>
+    <PageLayout locale={locale}>
       <p style={eyebrowStyle}>
         Archives du CWRC · CWRC Archives · Archivos del CWRC
       </p>

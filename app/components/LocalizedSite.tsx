@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import type { Locale } from "../i18n/config";
 import { localizedHref } from "../i18n/config";
 import {
@@ -31,6 +31,7 @@ import HomeWhatsNew from "./HomeWhatsNew";
 import TheatrePage from "./TheatrePage";
 import ImaginaryEncounterBook from "./ImaginaryEncounterBook";
 import TheatreStoryManager from "./TheatreStoryManager";
+import DevelopmentLogPage from "../development-log/page";
 export default function LocalizedSite({
   locale,
   slug,
@@ -146,6 +147,10 @@ export default function LocalizedSite({
       </PageLayout>
     );
   }
+  if (slug === "development-log") {
+    return <DevelopmentLogPage locale={locale} />;
+  }
+
   if (slug === "theatre") {
     return (
       <PageLayout locale={locale}>
