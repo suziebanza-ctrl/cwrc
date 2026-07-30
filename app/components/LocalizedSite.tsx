@@ -24,6 +24,9 @@ import CharismaPassage from "./CharismaPassage";
 import InteractiveKitchen from "./InteractiveKitchen";
 import RecipeBook from "./RecipeBook";
 import InteractiveLibrary from "./InteractiveLibrary";
+import InteractiveStudyRoom from "./InteractiveStudyRoom";
+import DiningRoomPage from "./DiningRoomPage";
+import RelaxationRoomPage from "./RelaxationRoomPage";
 import JokeBook from "./JokeBook";
 import ContentManager from "./ContentManager";
 import GrandSalonPage from "./GrandSalonPage";
@@ -117,6 +120,29 @@ export default function LocalizedSite({
     );
   }
 
+  if (slug === "study-room") {
+  return (
+    <PageLayout locale={locale}>
+      <InteractiveStudyRoom locale={locale} />
+    </PageLayout>
+  );
+}
+
+if (slug === "dining-room") {
+  return (
+    <PageLayout locale={locale}>
+      <DiningRoomPage locale={locale} />
+    </PageLayout>
+  );
+}
+
+if (slug === "relaxation-room") {
+  return (
+    <PageLayout locale={locale}>
+      <RelaxationRoomPage locale={locale} />
+    </PageLayout>
+  );
+}
   if (slug === "secret-passage") {
     return (
       <PageLayout locale={locale}>
@@ -524,6 +550,70 @@ function Rooms({
       href: "theatre",
     },
   }[locale];
+  const newRooms = {
+  fr: [
+    {
+      title: "La Salle d’étude",
+      text: "Explorez huit grandes matières dans une salle inspirée des bibliothèques historiques de Boston et de Philadelphie.",
+      image: "/images/salle-etude.png",
+      href: "study-room",
+    },
+    {
+      title: "La Salle à manger",
+      text: "Prenez place à la table du CWRC, partagez une idée, une recette, une blague, une œuvre ou simplement un moment avec nous.",
+      image: "/images/salle-manger.png",
+      href: "dining-room",
+    },
+    {
+      title: "La Salle de repos",
+      text: "Musique douce, aquarium vivant, méditation guidée et cohérence cardiaque vous attendent dans ce refuge paisible.",
+      image: "/images/salle-detente.png",
+      href: "relaxation-room",
+    },
+  ],
+
+  en: [
+    {
+      title: "The Study Room",
+      text: "Explore eight major subjects in a room inspired by the historic libraries of Boston and Philadelphia.",
+      image: "/images/salle-etude.png",
+      href: "study-room",
+    },
+    {
+      title: "The Dining Room",
+      text: "Take a seat at the CWRC table and share an idea, a recipe, a joke, a work of art or simply a moment with us.",
+      image: "/images/salle-manger.png",
+      href: "dining-room",
+    },
+    {
+      title: "The Relaxation Room",
+      text: "Soft music, a living aquarium, guided meditation and cardiac coherence await you in this peaceful retreat.",
+      image: "/images/salle-detente.png",
+      href: "relaxation-room",
+    },
+  ],
+
+  es: [
+    {
+      title: "La Sala de estudio",
+      text: "Explore ocho grandes materias en una sala inspirada en las bibliotecas históricas de Boston y Filadelfia.",
+      image: "/images/salle-etude.png",
+      href: "study-room",
+    },
+    {
+      title: "El Comedor",
+      text: "Tome asiento en la mesa del CWRC y comparta una idea, una receta, una broma, una obra o simplemente un momento con nosotros.",
+      image: "/images/salle-manger.png",
+      href: "dining-room",
+    },
+    {
+      title: "La Sala de relajación",
+      text: "Música suave, un acuario vivo, meditación guiada y coherencia cardíaca le esperan en este refugio tranquilo.",
+      image: "/images/salle-detente.png",
+      href: "relaxation-room",
+    },
+  ],
+}[locale];
 
   return (
     <PageLayout locale={locale}>
@@ -540,7 +630,7 @@ function Rooms({
       </p>
 
       <div style={roomsGridStyle}>
-        {[...t.rooms.cards, theatreRoom].map((room) => (
+        {[...t.rooms.cards, theatreRoom, ...newRooms].map((room) => (
           <Link
             key={room.href}
             href={localizedHref(

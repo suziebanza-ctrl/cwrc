@@ -9,7 +9,7 @@ import {
 import type { Locale } from "../i18n/config";
 import PublishCaseButton from "./PublishCaseButton";
 import CaseTranslations from "./CaseTranslations";
-
+import DiningRoomAdmin from "./DiningRoomAdmin";
 export type AdminQuestion = {
   id: string;
   created_at: string;
@@ -718,6 +718,12 @@ export default function AdminPortal({
         </section>
       )}
 
+      {token && (
+  <DiningRoomAdmin
+    locale={locale}
+    token={token}
+  />
+)}
       {message && (
         <p role="alert" style={errorStyle}>
           {message}
