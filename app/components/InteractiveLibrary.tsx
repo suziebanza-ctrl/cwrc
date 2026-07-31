@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { Locale } from "../i18n/config";
 import { localizedHref } from "../i18n/config";
+import PublishedObjectContent from "./PublishedObjectContent";
 
 type LibraryObject =
   | "jokeBook"
@@ -259,20 +260,6 @@ export default function InteractiveLibrary({
       return;
     }
 
-    if (key === "jokeBook") {
-      window.location.href =
-        "/library/jokes";
-
-      return;
-    }
-
-    if (key === "confirmedHall") {
-      window.location.href =
-        "/confirmed-truths";
-
-      return;
-    }
-
     if (
       items[key].secret &&
       !discoveredSecrets.includes(key)
@@ -515,29 +502,42 @@ export default function InteractiveLibrary({
               {selectedItem.description}
             </p>
 
-            {!selectedItem.secret && (
-              <div
-                style={
-                  preparationNoteStyle
-                }
-              >
-                <strong>
-                  Contenu évolutif
-                </strong>
+            {selected &&
+              !selectedItem.secret && (
+                <PublishedObjectContent
+                  roomKey="library"
+                  objectKey={selected}
+                  locale={locale}
+                />
+              )}
 
-                <p
-                  style={{
-                    margin: "7px 0 0",
-                  }}
-                >
-                  Cet emplacement pourra
-                  recevoir des histoires,
-                  des livres et d’autres
-                  contenus publiés depuis
-                  le portail
-                  administrateur.
-                </p>
-              </div>
+            {selected === "jokeBook" && (
+              <a
+                href={localizedHref(
+                  locale,
+                  "library/jokes",
+                )}
+                style={destinationButtonStyle}
+              >
+                📖 Ouvrir le livre · Open
+                the joke book · Abrir el
+                libro de chistes
+              </a>
+            )}
+
+            {selected ===
+              "confirmedHall" && (
+              <a
+                href={localizedHref(
+                  locale,
+                  "confirmed-truths",
+                )}
+                style={destinationButtonStyle}
+              >
+                🏛️ Entrer dans le Hall ·
+                Enter the Hall · Entrar
+                en el Salón
+              </a>
             )}
 
             <button
@@ -758,13 +758,16 @@ const storyTextStyle = {
   lineHeight: 1.8,
 };
 
-const preparationNoteStyle = {
-  marginTop: "20px",
-  padding: "16px",
-  borderRadius: "14px",
-  backgroundColor: "#F7F1E6",
-  color: "#6E5B3F",
-  lineHeight: 1.6,
+const destinationButtonStyle = {
+  display: "block",
+  width: "fit-content",
+  margin: "22px auto 0",
+  padding: "12px 20px",
+  borderRadius: "999px",
+  backgroundColor: "#8A6A3D",
+  color: "#FFFDF8",
+  fontWeight: "bold",
+  textDecoration: "none",
 };
 
 const closeButtonStyle = {

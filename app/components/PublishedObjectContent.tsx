@@ -64,9 +64,11 @@ const labels = {
 export default function PublishedObjectContent({
   roomKey,
   objectKey,
+  locale: localeProp,
 }: {
   roomKey: string;
   objectKey: string;
+  locale?: Locale;
 }) {
   const [contents, setContents] =
     useState<PublishedContent[]>([]);
@@ -84,7 +86,8 @@ export default function PublishedObjectContent({
     process.env
       .NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
-  const locale = getCurrentLocale();
+  const locale =
+    localeProp ?? getCurrentLocale();
   const t = labels[locale];
 
   useEffect(() => {

@@ -7,6 +7,7 @@ const routes = [
   "/about",
   "/ask-cathy",
   "/contact",
+  "/center-map",
   "/departments",
   "/development-log",
   "/greenhouse",

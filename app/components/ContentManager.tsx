@@ -148,20 +148,62 @@ const rooms = {
   laboratory: {
     label: "🔬 Laboratoire",
     objects: [
-      ["main", "Espace principal"],
-      ["experiment", "Expérience"],
-      ["equipment", "Équipement"],
-      ["notice", "Tableau d’information"],
+      ["microscope", "Microscope"],
+      ["samples", "Bocaux d’échantillons"],
+      ["testingMachine", "Machine d’essai"],
+      ["scientificCoffee", "Cafetière scientifique"],
+      ["investigationFiles", "Dossiers d’enquête"],
+      ["lilo", "Lilo au laboratoire"],
     ],
   },
 
   greenhouse: {
-    label: "🌿 Serre",
+    label: "🌿 Grande Serre",
     objects: [
-      ["main", "Espace principal"],
-      ["plants", "Plantes"],
-      ["window", "Fenêtre"],
-      ["table", "Table de travail"],
+      ["remarkablePlants", "Plantes remarquables"],
+      ["seeds", "Graines et semis"],
+      ["researchTools", "Outils de recherche"],
+      ["botanicalNotebook", "Carnet botanique"],
+      ["medicinalPlants", "Espèces médicinales"],
+      ["botanicalExperiments", "Petites expériences"],
+      ["gptBotanist", "GPT, assistant botaniste"],
+    ],
+  },
+
+  "office-cathy": {
+    label: "👩‍⚕️ Cabinet de Dre Cathy",
+    objects: [
+      ["officialMug", "Tasse officielle"],
+      ["caseFiles", "Dossiers en cours"],
+      ["diplomas", "Diplômes et confirmations"],
+      ["equestrianObjects", "Objets équestres"],
+      ["annie", "Annie"],
+      ["confirmedEvidence", "Preuves confirmées"],
+    ],
+  },
+
+  "office-gpt": {
+    label: "🤖 Étude technique de GPT",
+    objects: [
+      ["digitalTools", "Outils numériques"],
+      ["centerPlans", "Plans du Centre"],
+      ["ranger", "Ranger"],
+      ["technicalConsole", "Console technique"],
+      ["technicalArchives", "Archives techniques"],
+      ["itIncidents", "Incidents informatiques"],
+    ],
+  },
+
+  gardens: {
+    label: "🌸 Jardins extérieurs",
+    objects: [
+      ["fountain", "Fontaine"],
+      ["birdFeeders", "Mangeoires"],
+      ["gardenRabbit", "Lapin du jardin"],
+      ["teaTable", "Table du thé"],
+      ["gardenConversations", "Conversations de Cathy et Suzie"],
+      ["flowers", "Fleurs du domaine"],
+      ["seasonalStories", "Histoires saisonnières"],
     ],
   },
 } as const;

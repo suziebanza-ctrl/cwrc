@@ -25,6 +25,8 @@ import InteractiveKitchen from "./InteractiveKitchen";
 import RecipeBook from "./RecipeBook";
 import InteractiveLibrary from "./InteractiveLibrary";
 import InteractiveStudyRoom from "./InteractiveStudyRoom";
+import ImmersiveRoomPage from "./ImmersiveRoomPage";
+import CenterFloorPlan from "./CenterFloorPlan";
 import DiningRoomPage from "./DiningRoomPage";
 import RelaxationRoomPage from "./RelaxationRoomPage";
 import JokeBook from "./JokeBook";
@@ -54,6 +56,14 @@ export default function LocalizedSite({
 
   if (slug === "rooms") {
     return <Rooms locale={locale} />;
+  }
+
+  if (slug === "center-map") {
+    return (
+      <PageLayout locale={locale}>
+        <CenterFloorPlan locale={locale} />
+      </PageLayout>
+    );
   }
 
   if (slug === "ask-cathy") {
@@ -198,6 +208,59 @@ if (slug === "relaxation-room") {
       </PageLayout>
     );
   }
+
+  if (
+    slug === "laboratory" ||
+    slug === "greenhouse" ||
+    slug === "office-gpt" ||
+    slug === "gardens"
+  ) {
+    const immersivePage = site.pages[slug];
+
+    return (
+      <PageLayout locale={locale}>
+        <ImmersiveRoomPage
+          locale={locale}
+          roomKey={slug}
+          page={immersivePage}
+        />
+      </PageLayout>
+    );
+  }
+
+  if (slug === "office-cathy") {
+    return (
+      <PageLayout locale={locale}>
+        <ImmersiveRoomPage
+          locale={locale}
+          roomKey="office-cathy"
+          page={site.pages["office-cathy"]}
+        />
+
+        <div style={{marginTop: "30px", textAlign: "center"}}>
+          <Link
+            href={localizedHref(locale, "charisma-passage")}
+            style={{
+              display: "inline-block",
+              padding: "13px 22px",
+              borderRadius: "999px",
+              background: "#102a4c",
+              color: "#fff",
+              textDecoration: "none",
+              fontWeight: 800,
+            }}
+          >
+            🖼️ {locale === "fr"
+              ? "Ouvrir le passage secret des cent présences"
+              : locale === "en"
+                ? "Open the secret passage of one hundred presences"
+                : "Abrir el pasaje secreto de las cien presencias"}
+          </Link>
+        </div>
+      </PageLayout>
+    );
+  }
+
 if (slug === "geography-game")
   return (
     <PageLayout locale={locale}>
